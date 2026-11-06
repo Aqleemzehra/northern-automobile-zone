@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NAZ Admin Dashboard - Central Control Panel</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #dc2626;
+            --primary-dark: #b91c1c;
+            --secondary: #1e40af;
+            --dark: #0f172a;
+            --sidebar-bg: #1e293b;
+            --bg: #f8fafc;
+            --border: #e2e8f0;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --success: #16a34a;
+            --warning: #d97706;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { display: flex; background: var(--bg); min-height: 100vh; color: var(--text-main); }
+
+        /* SIDEBAR */
+        .sidebar { width: 280px; background: var(--sidebar-bg); color: white; display: flex; flex-direction: column; flex-shrink: 0; }
+        .sidebar-brand { padding: 22px 24px; font-size: 1.35rem; font-weight: bold; border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; gap: 12px; }
+        .sidebar-brand span { color: var(--primary); }
+        .sidebar-menu { list-style: none; padding: 20px 0; flex: 1; }
+        .sidebar-menu li a { display: flex; align-items: center; gap: 12px; padding: 14px 24px; color: #cbd5e1; text-decoration: none; font-size: 0.95rem; font-weight: 500; transition: 0.2s; cursor: pointer; }
+        .sidebar-menu li a:hover, .sidebar-menu li a.active { background: rgba(220, 38, 38, 0.15); color: #fff; border-left: 4px solid var(--primary); }
+        
+        .sidebar-badge {
+            background: #ef4444;
+            color: white;
+            font-size: 0.75rem;
+            padding: 2px 8px;
+            border-radius: 12px;
+            margin-left: auto;
+            font-weight: bold;
+        }
+        .sidebar-badge.blue { background: #2563eb; }
+
+        .sidebar-footer {
+            padding: 20px 24px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            font-size: 0.85rem;
+            color: #94a3b8;
+        }
+
+        /* MAIN CONTENT */
+        .main-content { flex: 1; padding: 30px; overflow-y: auto; } 
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; flex-wrap: wrap; gap: 15px; }
+        .header h1 { font-size: 1.65rem; color: var(--dark); font-weight: 700; }
+        .header p { color: var(--text-muted); font-size: 0.9rem; margin-top: 4px; }
+
+        /* STATS CARDS */
+        .stats-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px; margin-bottom: 28px; width: 100%; }
+        .stats-grid .stat-card { min-width: 0; width: 100%;}
+        .stat-card { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 1px 4px rgba(0,0,0,0.05); border: 1px solid var(--border); display: flex; align-items: center; gap: 16px; transition: 0.2s; }
+        .stat-card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+        .stat-icon { width: 50px; height: 50px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; flex-shrink: 0; }
+        .stat-icon.sell-pending { background: #fee2e2; color: var(--primary); }
+        .stat-icon.buy-pending { background: #fef3c7; color: #d97706; }
+        .stat-icon.verified-live { background: #dcfce7; color: #16a34a; }
+        .stat-icon.revenue { background: #f3e8ff; color: #9333ea; }
+        .stat-icon.rentals { background: #dbeafe; color: #2563eb; }
+        .stat-info h3 { font-size: 1.55rem; font-weight: bold; color: var(--dark); }
+        .stat-info p { font-size: 0.85rem; color: var(--text-muted); font-weight: 500; }
+
+        /* TAB PANELS */
+        .tab-panel { display: none; }
+        .tab-panel.active { display: block; animation: fadeIn 0.3s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* CARD & TABLES */
+        .card { background: white; border-radius: 12px; border: 1px solid var(--border); box-shadow: 0 1px 4px rgba(0,0,0,0.05); overflow: hidden; margin-bottom: 30px; }
+        .card-header { padding: 18px 24px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+        .card-header h3 { font-size: 1.15rem; color: var(--dark); font-weight: 600; display: flex; align-items: center; gap: 8px; }
+        
+        .table-responsive { overflow-x: auto; width: 100%; }
+        table { width: 100%; border-collapse: collapse; text-align: left; font-size: 0.88rem; }
+        th { background: #f1f5f9; padding: 14px 18px; font-weight: 600; color: #475569; border-bottom: 1px solid var(--border); white-space: nowrap; }
+        td { padding: 14px 18px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+        tr:hover { background: #f8fafc; }
+
+        /* BADGES */
+        .badge { display: inline-flex; align-items: center; gap: 5px; padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.3px; }
+        .badge-pending { background: #fef3c7; color: #b45309; border: 1px solid #fde68a; }
+        .badge-verification { background: #ffedd5; color: #c2410c; border: 1px solid #fed7aa; animation: pulse 2s infinite; }
+        .badge-confirmed, .badge-approved, .badge-paid { background: #dcfce7; color: #15803d; border: 1px solid #bbf7d0; }
+        .badge-rejected { background: #fee2e2; color: #b91c1c; border: 1px solid #fecaca; }
+        .badge-unpaid, .badge-awaiting { background: #f1f5f9; color: #64748b; border: 1px solid #cbd5e1; }
+
+        @keyframes pulse { 0% { opacity: 0.85; } 50% { opacity: 1; } 100% { opacity: 0.85; } }
+
+        /* BUTTONS */
+        .btn-action { border: none; border-radius: 6px; padding: 7px 12px; cursor: pointer; font-size: 0.8rem; font-weight: 600; transition: 0.2s; display: inline-flex; align-items: center; gap: 4px; }
+        .btn-approve { background: #16a34a; color: white; margin-right: 4px; }
+        .btn-approve:hover { background: #15803d; }
+        .btn-reject { background: #d97706; color: white; margin-right: 4px; }
+        .btn-reject:hover { background: #b45309; }
+        .btn-delete { background: #fee2e2; color: #dc2626; border: 1px solid #fecaca; }
+        .btn-delete:hover { background: #dc2626; color: white; }
+
+        .doc-btn { background: #f1f5f9; border: 1px solid #cbd5e1; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 0.8rem; font-weight: 600; display: inline-flex; align-items: center; gap: 6px; transition: 0.2s; color: #334155; }
+        .doc-btn:hover { background: #e2e8f0; color: #0f172a; }
+        .doc-btn.has-proof { background: #dbeafe; border-color: #93c5fd; color: #1d4ed8; font-weight: 700; }
+        .doc-btn.has-proof:hover { background: #bfdbfe; }
+
+        /* FILTERS BAR */
+        .filter-bar { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+        .filter-btn { background: #f1f5f9; border: 1px solid #cbd5e1; padding: 6px 14px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: 0.2s; color: #475569; }
+        .filter-btn.active, .filter-btn:hover { background: var(--dark); color: white; border-color: var(--dark); }
+
+        /* MODAL */
+        .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.85); align-items: center; justify-content: center; backdrop-filter: blur(4px); }
+        .modal-box { background: white; border-radius: 12px; max-width: 90%; max-height: 90%; overflow: hidden; box-shadow: 0 10px 40px rgba(0,0,0,0.4); display: flex; flex-direction: column; }
+        .modal-header { padding: 14px 20px; background: #0f172a; color: white; display: flex; justify-content: space-between; align-items: center; }
+        .modal-header h3 { font-size: 1rem; margin: 0; }
+        .modal-close { background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer; }
+        .modal-body { padding: 20px; overflow: auto; text-align: center; }
+        .modal-content-img { max-width: 100%; max-height: 75vh; border-radius: 8px; object-fit: contain; }
+
+       @media (max-width: 1100px) {
+    .stats-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 900px) {
+    body {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+    }
+
+    .main-content {
+        padding: 18px;
+    }
+}
+
+@media (max-width: 550px) {
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+}
+        
+/* ADMIN LOGIN SCREEN */
+#adminLoginScreen {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: linear-gradient(135deg, #0f172a, #1e293b);
+}
+
+.admin-login-card {
+    width: 100%;
+    max-width: 420px;
+    padding: 35px;
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 15px 45px rgba(0, 0, 0, 0.3);
+}
+
+.admin-login-logo {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.admin-login-logo i {
+    font-size: 48px;
+    color: #dc2626;
+    margin-bottom: 12px;
+}
+
+.admin-login-logo h2 {
+    color: #0f172a;
+    font-size: 25px;
+    margin-bottom: 6px;
+}
+
+.admin-login-logo p {
+    color: #64748b;
+    font-size: 14px;
+}
+
+.admin-login-card .login-field {
+    margin-bottom: 18px;
+}
+
+.admin-login-card label {
+    display: block;
+    margin-bottom: 7px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #334155;
+}
+
+.admin-login-card input {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    font-size: 15px;
+    outline: none;
+}
+
+.admin-login-card input:focus {
+    border-color: #1e40af;
+    box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.12);
+}
+
+#adminLoginButton {
+    width: 100%;
+    padding: 13px;
+    border: none;
+    border-radius: 8px;
+    background: #dc2626;
+    color: white;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+#adminLoginButton:hover {
+    background: #b91c1c;
+}
+
+#adminLoginButton:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+#adminLoginMessage {
+    margin-top: 15px;
+    font-size: 14px;
+    text-align: center;
+    color: #b91c1c;
+    overflow-wrap: anywhere;
+}
+
+.admin-login-back {
+    display: block;
+    text-align: center;
+    margin-top: 20px;
+    color: #64748b;
+    text-decoration: none;
+    font-size: 13px;
+}
+
+.admin-login-back:hover {
+    color: #1e40af;
+}
+
+    </style>
+</head>
+<body>
+    
+<!-- ADMIN LOGIN SCREEN -->
+<div id="adminLoginScreen">
+    <div class="admin-login-card">
+
+        <div class="admin-login-logo">
+            <i class="fa-solid fa-user-shield"></i>
+            <h2>NAZ Admin Login</h2>
+            <p>Sign in to access the central control panel</p>
+        </div>
+
+        <form id="adminLoginForm">
+            <div class="login-field">
+                <label for="adminEmail">Admin Email</label>
+                <input
+                    type="email"
+                    id="adminEmail"
+                    placeholder="Enter admin email"
+                    autocomplete="username"
+                    required
+                >
+            </div>
+
+            <div class="login-field">
+                <label for="adminPassword">Admin Password</label>
+                <input
+                    type="password"
+                    id="adminPassword"
+                    placeholder="Enter admin password"
+                    autocomplete="current-password"
+                    required
+                >
+            </div>
+
+            <button type="submit" id="adminLoginButton">
+                <i class="fa-solid fa-lock"></i>
+                Secure Login
+            </button>
+
+            <p id="adminLoginMessage" role="alert"></p>
+        </form>
+
+        <a href="index.html" class="admin-login-back">
+            <i class="fa-solid fa-arrow-left"></i>
+            Back to NAZ Website
+        </a>
+
+    </div>
+</div>
+<div id="adminDashboard" style="display: none;">
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+        <div class="sidebar-brand">
+            <i class="fa-solid fa-car-tunnel" style="color: #dc2626;"></i> NAZ <span>Admin Panel</span>
+        </div>
+        <ul class="sidebar-menu">
+            <li><a onclick="switchAdminTab('overview')" id="nav-overview" class="active"><i class="fa-solid fa-chart-pie"></i> Dashboard Overview</a></li>
+            <li>
+                <a onclick="switchAdminTab('sell-audit')" id="nav-sell-audit">
+                    <i class="fa-solid fa-shield-halved"></i> Sell Vehicle Audit 
+                    <span id="pendingSellBadge" class="sidebar-badge" style="display:none;">0</span>
+                </a>
+            </li>
+            <li>
+                <a onclick="switchAdminTab('buy-requests')" id="nav-buy-requests">
+                    <i class="fa-solid fa-cart-shopping"></i> Buy Requests & 10% Fee
+                    <span id="pendingBuyBadge" class="sidebar-badge blue" style="display:none;">0</span>
+                </a>
+            </li>
+            <li>
+                <a id="nav-rentals" onclick="switchAdminTab('rentals')">
+                    <i class="fa-solid fa-calendar-check"></i> Rental Bookings 
+                    <span id="pendingRentalBadge" class="sidebar-badge" style="display:none;">0</span>
+                </a>
+            </li>
+            <li><a id="nav-rental-fleet" onclick="switchAdminTab('rental-fleet')"><i class="fa-solid fa-warehouse"></i> Rental Fleet</a></li>
+            
+            <li style="margin-top: 25px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 10px;"><a href="buy.html" target="_blank"><i class="fa-solid fa-shop"></i> Public Marketplace (Buy)</a></li>
+            <li><a href="sell.html" target="_blank"><i class="fa-solid fa-plus-circle"></i> Sell Vehicle Form</a></li>
+            <li><a href="rent.html" target="_blank"><i class="fa-solid fa-car"></i> Rental Portal</a></li>
+        </ul>
+        <div class="sidebar-footer">
+            Northern Automobile Zone (NAZ)<br>Admin Control System v3.0
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+        <div class="header">
+            <div>
+                <h1 id="pageTitle">Dashboard Overview</h1>
+                <p id="pageSubtitle">Verify seller vehicles, audit 10% NAZ fee payment screenshots, and unlock seller contacts.</p>
+            </div>
+        </div>
+
+        <!-- OVERALL STATS CARDS -->
+        <div class="stats-grid">
+            <div class="stat-card" style="cursor: pointer;" onclick="switchAdminTab('sell-audit', 'Pending')">
+                <div class="stat-icon sell-pending"><i class="fa-solid fa-hourglass-half"></i></div>
+                <div class="stat-info">
+                    <h3 id="statPendingSellVehicles">0</h3>
+                    <p>Pending Sell Vehicles</p>
+                </div>
+            </div>
+            <div class="stat-card" style="cursor: pointer;" onclick="switchAdminTab('buy-requests', 'Pending Verification')">
+                <div class="stat-icon buy-pending"><i class="fa-solid fa-file-invoice-dollar"></i></div>
+                <div class="stat-info">
+                    <h3 id="statPendingBuyRequests">0</h3>
+                    <p>Pending Buy 10% Proofs</p>
+                </div>
+            </div>
+            <div class="stat-card" style="cursor: pointer;" onclick="switchAdminTab('sell-audit', 'Approved')">
+                <div class="stat-icon verified-live"><i class="fa-solid fa-circle-check"></i></div>
+                <div class="stat-info">
+                    <h3 id="statApprovedVehicles">0</h3>
+                    <p>Live Verified on Buy Page</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon revenue"><i class="fa-solid fa-sack-dollar"></i></div>
+                <div class="stat-info">
+                    <h3 id="statNazRevenue">PKR 0</h3>
+                    <p>Total NAZ Fee Collected (10%)</p>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ================================================= -->
+        <!-- TAB 1: OVERVIEW -->
+        <!-- ================================================= -->
+        <div id="panel-overview" class="tab-panel active">
+            <!-- Pending Buy Requests Section -->
+            <div class="card">
+                <div class="card-header">
+                    <h3><i class="fa-solid fa-file-invoice" style="color: #d97706;"></i> Buyer 10% Fee Payment Proofs (Awaiting Approval)</h3>
+                    <button class="doc-btn" onclick="switchAdminTab('buy-requests', 'Pending Verification')">View All Buy Requests</button>
+                </div>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Req ID</th>
+                                <th>Buyer Details</th>
+                                <th>Vehicle</th>
+                                <th>10% NAZ Fee</th>
+                                <th>Payment Method</th>
+                                <th>Payment Screenshot</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="overviewBuyRequestsBody">
+                            <tr><td colspan="7" style="text-align: center; padding: 25px; color: var(--text-muted);">Loading pending buy requests...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Pending Sell Vehicles Section -->
+            <div class="card">
+                <div class="card-header">
+                    <h3><i class="fa-solid fa-shield-halved" style="color: #dc2626;"></i> Sell Vehicles Awaiting Manual Verification</h3>
+                    <button class="doc-btn" onclick="switchAdminTab('sell-audit', 'Pending')">View All Sell Vehicles</button>
+                </div>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Vehicle ID</th>
+                                <th>Vehicle Info</th>
+                                <th>Seller Details</th>
+                                <th>Registration / NCP</th>
+                                <th>Uploaded Documents</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="overviewSellVehiclesBody">
+                            <tr><td colspan="6" style="text-align: center; padding: 25px; color: var(--text-muted);">Loading pending sell vehicles...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================================================= -->
+        <!-- TAB 2: SELL VEHICLE AUDIT -->
+        <!-- ================================================= -->
+        <div id="panel-sell-audit" class="tab-panel">
+            <div class="card">
+                <div class="card-header">
+                    <h3><i class="fa-solid fa-car-side" style="color: #dc2626;"></i> Sell Vehicles Audit & Manual Verification</h3>
+                    <div class="filter-bar">
+                        <button class="filter-btn active" onclick="filterSellTable('all', this)">All</button>
+                        <button class="filter-btn" onclick="filterSellTable('Pending', this)">Pending Verification ⏳</button>
+                        <button class="filter-btn" onclick="filterSellTable('Approved', this)">Approved (Live on Buy Page) ✅</button>
+                        <button class="filter-btn" onclick="filterSellTable('Rejected', this)">Rejected ❌</button>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Vehicle Details</th>
+                                <th>Seller Contact & Address</th>
+                                <th>Reg / NCP Type</th>
+                                <th>Documents (CNIC / Reg / Photos)</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="sellVehicleTableBody">
+                            <tr><td colspan="7" style="text-align: center; padding: 25px; color: var(--text-muted);">Loading marketplace vehicles...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================================================= -->
+        <!-- TAB 3: BUY REQUESTS & 10% NAZ FEE VERIFICATION -->
+        <!-- ================================================= -->
+        <div id="panel-buy-requests" class="tab-panel">
+            <div class="card">
+                <div class="card-header">
+                    <h3>
+                         <i class="fa-solid fa-cart-shopping" style="color: #2563eb;"></i>
+                         Buy Requests, Seller Confirmation & 10% NAZ Fee Verification
+                    </h3>              
+                    <div class="filter-bar">
+                    <button class="filter-btn active" onclick="filterBuyTable('all', this)">All</button>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Req ID & Date</th>
+                                <th>Buyer Details</th>
+                                <th>Vehicle & Asking Price</th>
+                                <th>10% NAZ Fee & Method</th>
+                                <th>Payment Proof Screenshot</th>
+                                <th>Status</th>
+                                <th>Actions (Seller Confirmation / Payment Verification)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="buyRequestsTableBody">
+                            <tr><td colspan="7" style="text-align: center; padding: 25px; color: var(--text-muted);">Loading buy requests from database...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================================================= -->
+        <!-- TAB 4: RENTAL BOOKINGS & PAYMENT VERIFICATION -->
+        <!-- ================================================= -->
+        <div id="panel-rentals" class="tab-panel">
+            <div class="card">
+                <div class="card-header">
+                    <h3><i class="fa-solid fa-calendar-check" style="color: #2563eb;"></i> Rental Bookings & 10% Payment Proofs</h3>
+                    <div class="filter-bar">
+                        <button class="filter-btn active" onclick="filterRentalTable('all', this)">All</button>
+                        <button class="filter-btn" onclick="filterRentalTable('Pending Verification', this)">Pending Verification ⏳</button>
+                        <button class="filter-btn" onclick="filterRentalTable('Confirmed', this)">Confirmed ✅</button>
+                        <button class="filter-btn" onclick="filterRentalTable('Rejected', this)">Rejected ❌</button>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Customer Details</th>
+                                <th>Vehicle</th>
+                                <th>Dates & Days</th>
+                                <th>Total & NAZ Fee</th>
+                                <th>Payment Proof (Screenshot)</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="rentalBookingsTableBody">
+                            <tr><td colspan="8" style="text-align: center; padding: 25px; color: var(--text-muted);">Loading bookings from database...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================================================= -->
+        <!-- TAB 5: RENTAL FLEET MANAGEMENT -->
+        <!-- ================================================= -->
+        <div id="panel-rental-fleet" class="tab-panel">
+            <div class="card">
+                <div class="card-header">
+                    <h3><i class="fa-solid fa-warehouse" style="color: #16a34a;"></i> Rental Vehicles Fleet</h3>
+                    <a href="rent.html" target="_blank" class="doc-btn"><i class="fa-solid fa-plus"></i> Add New Rental Vehicle</a>
+                </div>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Vehicle</th>
+                                <th>Rent / Day</th>
+                                <th>Location</th>
+                                <th>Owner Details</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="rentalFleetTableBody">
+                            <tr><td colspan="6" style="text-align: center; padding: 25px; color: var(--text-muted);">Loading rental fleet...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+    <!-- DOCUMENT / SCREENSHOT ZOOM MODAL -->
+    <div id="imageModal" class="modal" onclick="closeModal(event)">
+        <div class="modal-box" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h3 id="modalTitle">Document / Screenshot Preview</h3>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <img class="modal-content-img" id="modalImg" src="" alt="Proof Preview">
+            </div>
+        </div>
+    </div>
+
+    <script src="js/admin.js"></script>
+</body>
+</html>

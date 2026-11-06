@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+    <title>Create Account - NAZ</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- =====================================================
+         NAVBAR
+    ====================================================== -->
+    <header class="navbar">
+        <div class="navbar-container">
+            <a href="index.html" class="logo">
+                <img
+                    src="assets/logo.png"
+                    alt="NAZ Logo"
+                >
+            </a>
+            <nav class="nav-links">
+                <a href="index.html">
+                    Home
+                </a>
+                <a href="buy.html">
+                    Buy Vehicles
+                </a>
+                <a href="sell.html">
+                    Sell Vehicles
+                </a>
+                <a href="rent.html">
+                    Rent Vehicles
+                </a>
+                <a href="#">
+                    About Us
+                </a>
+                <a href="#">
+                    Contact Us
+                </a>
+            </nav>
+            <div class="nav-buttons">
+                <a href="login.html"
+                   class="login-btn">
+                    Login
+                </a>
+                <a href="signup.html"
+                   class="register-btn register-active">
+                    Register
+                </a>
+            </div>
+        </div>
+    </header>
+    <!-- =====================================================
+         SIGN UP PAGE
+    ===================================================== -->
+    <main class="auth-page">
+        <div class="auth-container">
+            <!-- =============================================
+                 LEFT SIDE
+            ============================================== -->
+            <section class="auth-left signup-left">
+                <div class="auth-left-content">
+                    <h1>
+                        Create Your
+                        <span>Account</span>
+                    </h1>
+                    <p class="auth-subtitle">
+                        Join NAZ Northern
+                        <br>
+                        Automobile Zone today
+                        <br>
+                        and get started
+                    </p>
+                    <ul class="auth-benefits">
+                        <li>
+                            <span>✓</span>
+                            Post Unlimited Ads
+                        </li>
+                        <li>
+                            <span>✓</span>
+                            Connect with Buyers
+                        </li>
+                        <li>
+                            <span>✓</span>
+                            Best Deals & Offers
+                        </li>
+                        <li>
+                            <span>✓</span>
+                            24/7 Customer Support
+                        </li>
+                    </ul>
+                </div>
+                <!-- CAR IMAGE -->
+                <img
+                    src="assets/vehicles/car3.jpg"
+                    alt="Vehicle"
+                    class="auth-car-image"
+                >
+            </section>
+            <!-- =============================================
+                 RIGHT SIDE SIGN UP FORM
+            ============================================== -->
+            <section class="auth-form-section">
+                <div class="auth-form-box signup-form-box">
+                    <h2>
+                        Create Account
+                    </h2>
+                    <p class="form-description">
+                        Fill in the details to register.
+                    </p>
+                    <!-- =====================================
+                         SIGNUP FORM
+                    ====================================== -->
+                    <form id="signupForm">
+                        <!-- FULL NAME -->
+                        <div class="auth-field">
+                            <label for="full_name">
+                                Full Name
+                            </label>
+                            <input
+                                type="text"
+                                id="full_name"
+                                name="full_name"
+                                placeholder="Enter your full name"
+                               required
+                            >
+                        </div>
+                        <!-- EMAIL -->
+                        <div class="auth-field">
+                            <label for="email">
+                                Email Address
+                            </label>
+                            <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                placeholder="Enter your Gmail address"
+                                required
+                            >
+                        </div>
+                        <!-- PHONE -->
+                        <div class="auth-field">
+                            <label for="phone">
+                                Phone Number
+                            </label>
+                            <input
+                                type="tel"
+                                id="phone"
+                                name="phone"
+                                placeholder="03XXXXXXXXX"
+                                maxlength="11"
+                                required
+                            >
+                        </div>
+                        <!-- PASSWORD -->
+                        <div class="auth-field">
+                            <label for="password">
+                                Password
+                            </label>
+                            <input
+                                type="password"
+                                id="password"
+                                name="password"
+                                placeholder="Create a password"
+                                required
+                            >
+                        </div>
+                        <!-- CONFIRM PASSWORD -->
+                        <div class="auth-field">
+                            <label for="confirmPassword">
+                                Confirm Password
+                            </label>
+                            <input
+                                type="password"
+                                id="confirmPassword"
+                                name="confirmPassword"
+                                placeholder="Confirm your password"
+                                required
+                            >
+                        </div>
+                        <!-- SIGN UP BUTTON -->
+                        <button
+                            type="submit"
+                            class="auth-submit-btn"
+                        >
+                            Sign Up
+                        </button>
+                    </form>
+                    <!-- LOGIN LINK -->
+                    <p class="auth-switch">
+                        Already have an account?
+                        <a href="login.html">
+                            Login
+                        </a>
+                    </p>
+                </div>
+            </section>
+        </div>
+        <!-- ================================================
+             BOTTOM FEATURES
+        ================================================= -->
+        <div class="auth-features">
+            <div class="auth-feature">
+                <div class="auth-feature-icon">
+                    ✓
+                </div>
+                <div>
+                    <h3>
+                        Quick & Easy
+                    </h3>
+                    <p>
+                        Sign up in minutes
+                    </p>
+                </div>
+            </div>
+            <div class="auth-feature">
+                <div class="auth-feature-icon">
+                    ♙
+                </div>
+                <div>
+                    <h3>
+                        Verified Users
+                    </h3>
+                    <p>
+                        All users are verified.
+                    </p>
+                </div>
+            </div>
+            <div class="auth-feature">
+                <div class="auth-feature-icon">
+                    ✓
+                </div>
+                <div>
+                    <h3>
+                        Trusted Platform
+                    </h3>
+                    <p>
+                        Buy & sell with confidence
+                    </p>
+                </div>
+            </div>
+        </div>
+    </main>
+    <!-- =====================================================
+         SIGNUP JAVASCRIPT
+    ====================================================== -->
+   <script>
+
+const signupForm = document.getElementById("signupForm");
+
+signupForm.addEventListener("submit", async function (event) {
+
+    event.preventDefault();
+
+    // Get values
+    const full_name =
+        document.getElementById("full_name").value.trim();
+
+    const email =
+        document.getElementById("email").value.trim();
+
+    const phone =
+        document.getElementById("phone").value.trim();
+
+    const password =
+        document.getElementById("password").value;
+
+    const confirmPassword =
+        document.getElementById("confirmPassword").value;
+
+
+    // ==========================================
+    // FULL NAME
+    // ==========================================
+
+    if (full_name === "") {
+
+        alert("Please enter your full name.");
+        return;
+
+    }
+
+
+    // ==========================================
+    // GMAIL CHECK
+    // ==========================================
+
+    const gmailPattern =
+        /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
+
+    if (!gmailPattern.test(email)) {
+
+        alert(
+            "Please enter a valid Gmail address ending with @gmail.com."
+        );
+
+        return;
+
+    }
+
+
+    // ==========================================
+    // PHONE CHECK
+    // ==========================================
+
+    const phonePattern =
+        /^03[0-9]{9}$/;
+
+    if (!phonePattern.test(phone)) {
+
+        alert(
+            "Phone number must be exactly 11 digits and start with 03."
+        );
+
+        return;
+
+    }
+
+
+    // ==========================================
+    // PASSWORD
+    // ==========================================
+
+    if (password.length < 5) {
+
+        alert(
+            "Password must contain at least 5 characters."
+        );
+
+        return;
+
+    }
+
+
+    // ==========================================
+    // CONFIRM PASSWORD
+    // ==========================================
+
+    if (password !== confirmPassword) {
+
+        alert(
+            "Password and Confirm Password do not match."
+        );
+
+        return;
+
+    }
+
+
+    // ==========================================
+    // SEND DATA TO BACKEND
+    // ==========================================
+
+    try {
+
+        const response = await fetch(
+            "http://localhost:5000/api/signup",
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify({
+
+                    full_name: full_name,
+                    email: email,
+                    phone: phone,
+                    password: password
+
+                })
+            }
+        );
+
+
+        const data = await response.json();
+
+
+        // ==========================================
+        // SUCCESS
+        // ==========================================
+
+        if (response.ok) {
+
+            window.location.href = "login.html";
+
+            return;
+
+        }
+
+
+        // ==========================================
+        // SERVER ERROR
+        // ==========================================
+
+        alert(
+            data.message || "Signup failed."
+        );
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Signup Error:",
+            error
+        );
+
+        alert(
+            "Unable to connect to the server. Please make sure the backend is running."
+        );
+
+    }
+
+});
+
+</script>
+</body>
+</html>

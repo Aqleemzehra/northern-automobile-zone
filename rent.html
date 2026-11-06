@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rent Vehicles - NAZ</title>
+    <link rel="stylesheet" href="css/rent.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+</head>
+<body>
+    <!-- ================= NAVBAR ================= -->
+    <nav class="rent-navbar">
+        <a href="index.html">
+            <img
+                src="assets/logo.png"
+                alt="NAZ Logo"
+                class="rent-logo">
+        </a>
+        <div class="rent-nav-links">
+            <a href="index.html">Home</a>
+            <a href="buy.html">Buy Vehicles</a>
+            <a href="sell.html">Sell Vehicles</a>
+            <a href="rent.html">Rent Vehicles</a>
+            <a href="about.html">About Us</a>
+            <a
+                href="javascript:void(0)"
+                onclick="openTrackBookingModal()"
+                class="rent-login-btn"
+                style="background: #1e40af; border-color: #1e40af; color: white;">
+                <i class="fa-solid fa-phone"></i> Track & Owner Contact
+            </a>
+    </nav>
+    <!-- ================= HERO ================= -->
+    <section class="rent-hero">
+        <div class="rent-hero-content">
+            <h1>RENT VEHICLES</h1>
+            <p>
+                Find a vehicle to rent or list your vehicle for rent
+            </p>
+        </div>
+    </section>
+    <!-- ================= MAIN CONTENT ================= -->
+    <div class="rent-container">
+        <div class="rent-heading">
+            <h2>What would you like to do?</h2>
+        </div>
+<!-- ================================================= -->
+<!-- RENTAL SEARCH -->
+<!-- ================================================= -->
+<section class="rental-search-section">
+    <div class="rental-search-content">
+        <h2>Find Your Perfect Rental Vehicle</h2>
+        <p>
+            Search available vehicles by price, model, type or area
+        </p>
+        <div class="rental-search-box">
+            <input
+                type="text"
+                id="rentalSearchInput"
+                placeholder="Search by price, model, type or area..."
+                autocomplete="off">
+            <button
+                type="button"
+                onclick="searchRentalVehicles()">
+                🔍 Search
+            </button>
+        </div>
+    </div>
+</section>        
+        <!-- ================================================= -->
+        <!-- AVAILABLE VEHICLES -->
+        <!-- ================================================= -->
+        <section class="available-section">
+            <h2>Available Vehicles for Rent</h2>
+            <div
+                class="vehicle-grid"
+                id="rentalVehiclesGrid">
+                <p
+                    id="rentalLoading"
+                    style="
+                        grid-column: 1 / -1;
+                        text-align: center;
+                      color: #666;
+                    ">
+                    Loading available vehicles...
+                </p>
+            </div>
+        </section>
+    </div>
+<div class="rent-options">
+            <!-- OWNER -->
+            <div class="rent-option-card">
+                <div class="rent-icon">🚘</div>
+                <h3>Give Vehicle on Rent</h3>
+                <p>
+                    Have a car?
+                    Add your vehicle and offer it
+                    for rental through NAZ.
+                </p>
+                <button
+                    type="button"
+                    class="rent-option-btn"
+                    onclick="showGiveForm()">
+                    Add Vehicle for Rent
+                </button>
+            </div>
+        </div>       <!-- ================================================= -->
+        <!-- GIVE VEHICLE FORM -->
+        <!-- ================================================= -->
+        <section
+            class="give-form-section"
+            id="giveVehicleSection"
+            style="display: none;">
+            <h2>Add Your Vehicle for Rent</h2>
+            <div class="form-grid">
+                <!-- VEHICLE TYPE -->
+                <div>
+                    <label>Vehicle Type</label>
+                    <select id="vehicleType">
+                        <option value="">
+                            Select Type
+                        </option>
+                        <option value="car">
+                            Car
+                        </option>
+                    </select>
+                </div>
+                <!-- BRAND -->
+                <div>
+                    <label>Brand</label>
+                    <select
+                        id="vehicleBrand"
+                        onchange="updateModels()">
+                        <option value="">
+                            Select Brand
+                        </option>
+                    </select>
+                </div>
+                <!-- MODEL -->
+                <div>
+                    <label>Model</label>
+                    <select id="vehicleModel">
+                        <option value="">
+                            Select Model
+                        </option>
+                    </select>
+                </div>
+                <!-- YEAR -->
+                <div>
+                    <label>Year</label>
+                    <select id="vehicleYear">
+                        <option value="">
+                            Select Year
+                        </option>
+                        <option>2026</option>
+                        <option>2025</option>
+                        <option>2024</option>
+                        <option>2023</option>
+                        <option>2022</option>
+                        <option>2021</option>
+                        <option>2020</option>
+                        <option>2019</option>
+                        <option>2018</option>
+                        <option>2017</option>
+                        <option>2016</option>
+                        <option>2015</option>
+                        <option>2014</option>
+                        <option>2013</option>
+                        <option>2012</option>
+                        <option>2011</option>
+                        <option>2010</option>
+                        <option>2009</option>
+                        <option>2008</option>
+                        <option>2007</option>
+                        <option>2006</option>
+                        <option>2005</option>
+                        <option>2004</option>
+                        <option>2003</option>
+                        <option>2002</option>
+                        <option>2001</option>
+                        <option>2000</option>
+                        <option>1999</option>
+                        <option>1998</option>
+                        <option>1997</option>
+                        <option>1996</option>
+                        <option>1995</option>
+                        <option>1994</option>
+                        <option>1993</option>
+                        <option>1992</option>
+                        <option>1991</option>
+                        <option>1990</option>
+                    </select>
+                </div>
+                <!-- FUEL -->
+                <div>
+                    <label>Fuel Type</label>
+                    <select id="fuelType">
+                        <option value="">
+                            Select Fuel
+                        </option>
+                        <option>Petrol</option>
+                        <option>Diesel</option>
+                        <option>Hybrid</option>
+                        <option>Electric</option>
+                    </select>
+                </div>
+                <!-- TRANSMISSION -->
+                <div>
+                    <label>Transmission</label>
+                    <select id="transmission">
+                        <option value="">
+                            Select Transmission
+                        </option>
+                        <option>Automatic</option>
+                        <option>Manual</option>
+                    </select>
+                </div>
+                <!-- LOCATION -->
+                <div>
+                    <label>Location</label>
+                    <select id="vehicleLocation">
+                        <option value="">
+                            Select District
+                        </option>
+
+                        <option value="Gilgit">
+                            Gilgit
+                        </option>
+
+                        <option value="Hunza">
+                            Hunza
+                        </option>
+
+                        <option value="Nagar">
+                            Nagar
+                        </option>
+
+                        <option value="Ghizer">
+                            Ghizer
+                        </option>
+
+                        <option value="Skardu">
+                            Skardu
+                        </option>
+
+                        <option value="Shigar">
+                            Shigar
+                        </option>
+
+                        <option value="Kharmang">
+                            Kharmang
+                        </option>
+
+                        <option value="Ghanche">
+                            Ghanche
+                        </option>
+
+                        <option value="Astore">
+                            Astore
+                        </option>
+
+                        <option value="Diamer">
+                            Diamer
+                        </option>
+
+                        <option value="Darel">
+                            Darel
+                        </option>
+
+                        <option value="Tangir">
+                            Tangir
+                        </option>
+
+                        <option value="Roundu">
+                            Roundu
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- RENT PER DAY -->
+
+                <div>
+
+                    <label>
+                        Rent Per Day (PKR)(5k-15k)
+                    </label>
+
+                    <input
+                        type="number"
+                        id="rentPerDay"
+                        placeholder="e.g. 6000"
+                        min="5000"
+                        max="15000">
+
+                </div>
+
+
+                <!-- AVAILABLE FROM -->
+
+                <div>
+
+                    <label>Available From</label>
+
+                    <input
+                        type="date"
+                        id="availableFrom">
+                </div>
+                <!-- AVAILABLE UNTIL -->
+                <div>
+                    <label>Available Until</label>
+                    <input
+                        type="date"
+                        id="availableUntil">
+                </div>
+                <!-- OWNER FULL NAME -->
+                <div>
+                    <label>Owner Full Name</label>
+                    <input
+                        type="text"
+                        id="ownerFullName"
+                        placeholder="e.g. Tariq Mehmood">
+                </div>
+                <!-- OWNER PHONE NUMBER -->
+                <div>
+                    <label>Owner Contact Phone (For Renters after Payment)</label>
+                    <input
+                        type="tel"
+                        id="ownerPhone"
+                        placeholder="03XXXXXXXXX"
+                        maxlength="11">
+                </div>
+                <!-- OWNER EMAIL -->
+                <div>
+                    <label>Owner Email</label>
+                    <input
+                        type="email"
+                        id="ownerEmail"
+                        placeholder="e.g. owner@gmail.com">
+                </div>
+                <!-- IMAGES -->
+                <div class="full-width">
+                    <label>Vehicle Images</label>
+                    <input
+                        type="file"
+                        id="vehicleImages"
+                        multiple
+                        accept=".jpg,.jpeg,.png,.webp">
+                </div>
+            </div>
+            <div class="submit-area">
+                <button
+                    type="button"
+                    class="submit-btn"
+                    onclick="addVehicleForRent()">
+                    Add Vehicle for Rent
+                </button>
+            </div>
+        </section>
+    <!-- ================================================= -->
+    <!-- BOOKING SECTION -->
+    <!-- ================================================= -->
+    <section
+        class="booking-section"
+        id="bookingSection"
+        style="display: none;">
+        <h2>Book Your Vehicle</h2>
+        <p class="booking-subtitle">
+            Enter your details and rental dates to request a booking.
+        </p>
+        <!-- AVAILABILITY & BOOKED DATES NOTICE -->
+        <div id="bookingAvailabilityNotice" class="availability-notice" style="display: none;"></div>
+        <!-- SELECTED VEHICLE -->
+        <div class="booking-vehicle-info">
+            <img
+                id="bookingVehicleImage"
+                src=""
+                alt="Selected Vehicle">
+            <div>
+                <h3 id="bookingVehicleName">
+                    Vehicle
+                </h3>
+                <p id="bookingVehicleLocation">
+                    📍 Location
+                </p>
+                <p id="bookingVehiclePrice">
+                    PKR 0 / Day
+                </p>
+            </div>
+        </div>
+        <!-- HIDDEN VEHICLE ID -->
+        <input
+            type="hidden"
+            id="bookingVehicleId">
+        <!-- CUSTOMER DETAILS -->
+        <div class="booking-form">
+            <div class="form-group">
+                <label>Full Name</label>
+                <input
+                    type="text"
+                    id="customerName"
+                    placeholder="Enter your full name">
+            </div>
+            <div class="form-group">
+                <label>Email</label>
+                <input
+                    type="email"
+                    id="customerEmail"
+                    placeholder="Enter your Gmail">
+            </div>
+            <div class="form-group">
+                <label>Phone Number</label>
+                <input
+                    type="tel"
+                    id="customerPhone"
+                    placeholder="03XXXXXXXXX"
+                    maxlength="11">
+            </div>
+            <div class="form-group">
+                <label>Pickup Date</label>
+                <input
+                    type="text"
+                    id="bookingPickupDate"
+                    placeholder="Select pickup date"
+                    readonly>
+            </div>
+            <div class="form-group">
+                <label>Return Date</label>
+                <input
+                    type="text"
+                    id="bookingReturnDate"
+                    placeholder="Select return date"
+                    readonly>
+            </div>
+        </div>
+        <!-- BOOKING CALCULATION -->
+        <div class="booking-summary">
+            <p>
+                Rent Per Day:
+                <strong id="bookingRentPerDay">
+                    PKR 0
+                </strong>
+            </p>
+            <p>
+                Total Days:
+                <strong id="bookingTotalDays">
+                    0
+                </strong>
+            </p>
+            <p class="booking-total">
+                Total Amount:
+                <strong id="bookingTotalAmount">
+                    PKR 0
+                </strong>
+            </p>
+        </div>
+        <!-- SUBMIT -->
+        <div class="booking-submit-area">
+            <button
+                type="button"
+                class="booking-btn"
+                onclick="submitRentalBooking()">
+                Submit Booking
+            </button>
+            <button
+                type="button"
+                class="booking-cancel-btn"
+                onclick="closeBookingForm()">
+                Cancel
+            </button>
+        </div>
+    </section>
+    <!-- ================================================= -->
+    <!-- PAYMENT SECTION -->
+    <!-- ================================================= -->
+    <section
+        class="payment-section"
+        id="paymentSection"
+        style="display: none;">
+        <div class="payment-container">
+            <h2>NAZ Rental Payment</h2>
+            <p class="payment-subtitle">
+                Pay the 10% NAZ service fee to request confirmation for your booking.
+            </p>
+            <!-- PAYMENT SUMMARY -->
+            <div class="payment-summary">
+                <div class="payment-row">
+                    <span>
+                        Rental Amount
+                    </span>
+                    <strong id="paymentRentalAmount">
+                        PKR 0
+                    </strong>
+                </div>
+                <div class="payment-row">
+                    <span>
+                        NAZ Service Fee (10%)
+                    </span>
+                    <strong id="paymentNazFee">
+                        PKR 0
+                    </strong>
+                </div>
+                <div class="payment-row payment-total">
+                    <span>
+                        Amount to Pay
+                    </span>
+                    <strong id="paymentAmount">
+                        PKR 0
+                    </strong>
+                </div>
+            </div>
+            <!-- PAYMENT METHOD -->
+            <div class="payment-method-box" id="paymentMethodStep">
+                <label for="paymentMethod">
+                    Select Payment Method
+                </label>
+                <select id="paymentMethod" onchange="onPaymentMethodChanged()">
+                    <option value="">
+                        -- Select Payment Method --
+                    </option>
+                    <option value="JazzCash">
+                        JazzCash
+                    </option>
+                    <option value="EasyPaisa">
+                        EasyPaisa
+                    </option>
+                    <option value="Bank Transfer">
+                        Bank Transfer
+                    </option>
+                </select>
+                <!-- DYNAMIC ACCOUNT DETAILS -->
+                <div id="paymentAccountDetails" class="payment-account-details" style="display: none;">
+                    <h4 id="accountMethodTitle"><i class="fa-solid fa-building-columns"></i> Account Details</h4>
+                    <div class="account-detail-row">
+                        <span>Account Title:</span>
+                        <strong id="accountTitle">NAZ Northern Automobile Zone</strong>
+                    </div>
+                    <div class="account-detail-row">
+                        <span id="accountNumberLabel">Account Number:</span>
+                        <strong id="accountNumber">0344-5096766</strong>
+                    </div>
+                    <div class="account-detail-row" id="bankBranchRow" style="display:none;">
+                        <span>Bank Name:</span>
+                        <strong>Habib Bank Limited (HBL)</strong>
+                    </div>
+                </div>
+                <!-- GENERATE RECEIPT BUTTON -->
+                <div class="payment-buttons" style="margin-top: 20px;">
+                    <button
+                        type="button"
+                        class="booking-btn"
+                        id="btnGenerateReceipt"
+                        onclick="generatePaymentEmailReceipt()">
+                        <i class="fa-solid fa-paper-plane"></i> Proceed & Send Payment Email
+                    </button>
+                    <button
+                        type="button"
+                        class="booking-cancel-btn"
+                        onclick="closePaymentSection()">
+                        Cancel
+                    </button>
+                </div>
+            </div>
+            <!-- ================================================= -->
+            <!-- EMAIL RECEIPT & SCREENSHOT UPLOAD SECTION -->
+            <!-- ================================================= -->
+            <div id="emailReceiptSection" class="email-receipt-container" style="display: none;">
+                <!--SCREENSHOT UPLOAD BOX -->
+                <div class="proof-upload-box">
+                    <h3 style="margin-top: 0; color: #0f172a;"><i class="fa-solid fa-image"></i> Upload Payment Screenshot</h3>
+                    <p style="color: #64748b; font-size: 14px; margin-bottom: 15px;">
+                        Please take a screenshot of the payment email sent to your email address and upload it here.
+                    </p>
+                    <label class="proof-upload-btn" for="paymentProofInput">
+                        <i class="fa-solid fa-cloud-arrow-up"></i> Choose Screenshot File
+                    </label>
+                    <input
+                        type="file"
+                        id="paymentProofInput"
+                        accept="image/*"
+                        onchange="handleProofFileSelected(event)">
+
+                    <div id="proofFileNameDisplay" style="color: #475569; font-size: 13.5px; font-weight: 500; min-height: 20px;"></div>
+                    <div id="proofPreviewContainer" class="proof-preview-container" style="display: none;">
+                        <img id="proofPreviewImg" src="" alt="Screenshot Preview">
+                    </div>
+                    <div style="margin-top: 20px;">
+                        <button
+                            type="button"
+                            class="booking-btn"
+                            id="btnSubmitProof"
+                            onclick="submitPaymentProof()">
+                            <i class="fa-solid fa-upload"></i> Submit Screenshot to Admin
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- ================================================= -->
+            <!-- ADMIN NOTIFICATION SUCCESS CARD -->
+            <!-- ================================================= -->
+            <div id="verificationSuccessCard" class="verification-status-card" style="display: none;">
+                <div class="verification-icon">
+                    <i class="fa-solid fa-shield-check"></i>
+                </div>
+                <h3>Screenshot Admin Ke Paas Bhej Diya Gaya Hai!</h3>
+                <p>
+                    Aap ka payment screenshot Admin verification ke liye submit ho chuka hai. 
+                    Admin is ki tasdeeq karega aur tasdeeq ke baad aap ki booking confirm ho jaye gi.
+                </p>
+                <div style="margin-bottom: 20px;">
+                    <span class="verification-status-pill">
+                        <i class="fa-solid fa-clock"></i> Status: Pending Admin Verification
+                    </span>
+                </div>
+                <div style="font-size: 14px; color: #4b5563; margin-bottom: 25px;">
+                    Booking Reference ID: <strong id="successBookingIdBadge">#0</strong>
+                </div>
+                <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+                    <button
+                        type="button"
+                        class="booking-btn"
+                        style="background: #1e40af; width: auto; padding: 12px 24px;"
+                        onclick="checkCurrentBookingStatus()">
+                        <i class="fa-solid fa-arrows-rotate"></i> Check Status & View Owner Contact
+                    </button>
+                    <button
+                        type="button"
+                        class="booking-cancel-btn"
+                        style="width: auto; padding: 12px 24px;"
+                        onclick="finishBookingAndReset()">
+                        Done / Back to Vehicles
+                    </button>
+                </div>
+                <!-- DYNAMIC REVEALED OWNER CONTACT -->
+                <div id="inlineOwnerContactBox" style="margin-top: 25px; display: none;"></div>
+            </div>
+        </div>
+    </section>
+    <!-- ================================================= -->
+    <!-- TRACK BOOKING & OWNER CONTACT MODAL -->
+    <!-- ================================================= -->
+    <div id="trackBookingModal" class="track-modal" style="display: none;" onclick="closeTrackBookingModal(event)">
+        <div class="track-modal-box" onclick="event.stopPropagation()">
+            <div class="track-modal-header">
+                <h3><i class="fa-solid fa-id-card-clip"></i> Track Booking & Vehicle Owner Contact</h3>
+                <button class="track-close-btn" onclick="closeTrackBookingModal()">&times;</button>
+            </div>
+            <div class="track-modal-body">
+                <p style="color: #64748b; font-size: 14px; margin-bottom: 15px;">
+                    Enter your <strong>Booking ID</strong> (e.g., 1) or <strong>Phone Number</strong> (e.g., 03XXXXXXXXX) to check your booking status and view the vehicle owner's contact number:
+                </p>
+                <div style="display: flex; gap: 10px; margin-bottom: 20px;">
+                    <input
+                        type="text"
+                        id="trackBookingQueryInput"
+                        placeholder="enter your Booking ID..."
+                        style="flex: 1; padding: 12px 16px; border: 1.5px solid #cbd5e1; border-radius: 8px; font-size: 14px;">
+                    <button
+                        type="button"
+                        class="booking-btn"
+                        style="width: auto; padding: 12px 24px;"
+                        onclick="searchTrackBooking()">
+                        <i class="fa-solid fa-magnifying-glass"></i> Check
+                    </button>
+                </div>
+                <div id="trackBookingResultContainer"></div>
+            </div>
+        </div>
+    </div>
+    <!-- ================= JAVASCRIPT ================= -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="js/rent.js"></script>
+</body>
+</html>

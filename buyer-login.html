@@ -1,0 +1,258 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Buyer Login - NAZ</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #f4f6f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .login-container {
+            width: 400px;
+            background: white;
+            padding: 35px;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .logo img {
+            width: 90px;
+            height: auto;
+        }
+
+        h2 {
+            text-align: center;
+            color: #0b1f3a;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #777;
+            font-size: 14px;
+            margin-bottom: 25px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: bold;
+            color: #333;
+            font-size: 14px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 14px;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: #0b1f3a;
+        }
+
+        button {
+            width: 100%;
+            padding: 13px;
+            background: #0b1f3a;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #12345c;
+        }
+
+        .message {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 14px;
+        }
+
+        .signup-link {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+
+        .signup-link a {
+            color: #0b1f3a;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .back-home {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .back-home a {
+            color: #555;
+            text-decoration: none;
+            font-size: 13px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="login-container">
+
+    <div class="logo">
+        <a href="index.html">
+            <img src="assets/logo.png" alt="NAZ Logo">
+        </a>
+    </div>
+
+    <h2>Buyer Login</h2>
+
+    <p class="subtitle">
+        Login to your NAZ Buyer account
+    </p>
+
+    <form id="buyerLoginForm">
+
+        <div class="form-group">
+            <label for="loginEmail">Gmail</label>
+
+            <input
+                type="email"
+                id="loginEmail"
+                placeholder="Enter your Gmail"
+                required
+            >
+        </div>
+
+        <div class="form-group">
+            <label for="loginPassword">Password</label>
+
+            <input
+                type="password"
+                id="loginPassword"
+                placeholder="Enter your password"
+                required
+            >
+        </div>
+
+        <button type="submit">
+            Buyer Login
+        </button>
+
+    </form>
+
+    <div id="message" class="message"></div>
+
+    <div class="signup-link">
+        Don't have a Buyer account?
+        <a href="buyer-signup.html">Create Account</a>
+    </div>
+
+    <div class="back-home">
+        <a href="index.html">← Back to Home</a>
+    </div>
+
+</div>
+
+
+<script>
+
+document.getElementById("buyerLoginForm").addEventListener("submit", async function(event) {
+
+    event.preventDefault();
+
+    const email = document.getElementById("loginEmail").value.trim();
+    const password = document.getElementById("loginPassword").value;
+
+    const message = document.getElementById("message");
+
+    if (!email || !password) {
+        message.style.color = "red";
+        message.textContent = "Please enter email and password.";
+        return;
+    }
+
+    try {
+
+        const response = await fetch("http://localhost:5000/api/buyer/login", {
+
+            method: "POST",
+
+            headers: {
+                "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify({
+                email: email,
+                password: password
+            })
+
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+
+            localStorage.setItem("buyerLoggedIn", "true");
+            localStorage.setItem("buyerUser", JSON.stringify(data.user));
+
+            message.style.color = "green";
+            message.textContent = "Login successful.";
+
+            setTimeout(() => {
+                window.location.href = "buy.html";
+            }, 700);
+
+        } else {
+
+            message.style.color = "red";
+            message.textContent = data.message;
+
+        }
+
+    } catch (error) {
+
+        console.error("Buyer login error:", error);
+
+        message.style.color = "red";
+        message.textContent = "Unable to connect to server.";
+
+    }
+
+});
+
+</script>
+
+</body>
+</html>

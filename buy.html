@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buy Vehicles - NAZ Verified Marketplace</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/buy.css">
+</head>
+<body>
+<!-- NAVBAR -->
+<nav class="navbar">
+    <div class="logo">
+        <a href="index.html"><img src="assets/logo.png" alt="NAZ Logo"></a>
+    </div>
+    <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="buy.html" class="active">Buy Vehicles</a>
+        <a href="sell.html">Sell Vehicles</a>
+        <a href="rent.html">Rent Vehicles</a>
+        <a href="admin.html">Admin Panel</a>
+        <a href="about.html">About Us</a>
+        <button type="button" onclick="openTrackPurchaseModal()" class="contact-btn" style="background:#1e40af; margin-left: 15px;">
+            <i class="fa-solid fa-receipt"></i> Track Purchase / Seller Contact
+        </button>
+    </div>
+</nav>
+
+<!-- HERO -->
+<section class="buy-hero">
+    <h1>Available Verified Vehicles</h1>
+    <p>Browse through legally verified cars and motorcycles in Northern Areas</p>
+    <!-- SEARCH & FILTER -->
+    <div class="filter-bar">
+        <input type="text" id="searchInput" placeholder="Search by brand, model or location..." onkeyup="filterVehicles()">
+        <div class="filter-tabs">
+            <button class="tab-btn active" onclick="setFilter('all', this)">All</button>
+            <button class="tab-btn" onclick="setFilter('Car', this)">Cars</button>
+            <button class="tab-btn" onclick="setFilter('Motorcycle', this)">Motorcycles</button>
+            <button class="tab-btn" onclick="setFilter('Custom Paid', this)">Custom Paid</button>
+            <button class="tab-btn" onclick="setFilter('NCP', this)">NCP</button>
+        </div>
+    </div>
+</section>
+
+<!-- VEHICLE LISTINGS CONTAINER -->
+<main class="listings-container">
+    <div id="loadingIndicator" class="loading-state">
+        <p><i class="fa-solid fa-spinner fa-spin"></i> Loading verified vehicles from server...</p>
+    </div>
+
+    <div id="vehicleGrid" class="vehicle-grid">
+        <!-- Live vehicle cards inserted dynamically here -->
+    </div>
+
+    <!-- SEE ALL VEHICLES BUTTON (SHOWS TOP 6 INITIALLY) -->
+    <div id="seeAllVehiclesContainer" class="see-all-container" style="display: none; text-align: center; margin: 30px 0;">
+        <button type="button" id="seeAllVehiclesBtn" class="see-all-btn" onclick="toggleSeeAllVehicles()">
+            <i class="fa-solid fa-layer-group"></i> See All Vehicles
+        </button>
+    </div>
+</main>
+
+<!-- SOLD VEHICLES SECTION -->
+<section id="soldVehiclesSection" class="sold-vehicles-section" style="display: none;">
+
+    <div class="sold-section-heading">
+        <h2><i class="fa-solid fa-car"></i> Sold Vehicles</h2>
+        <p>Vehicles successfully sold through NAZ Marketplace</p>
+    </div>
+
+    <div id="soldVehiclesList" class="sold-vehicles-list">
+        <!-- Sold vehicle rows will load here -->
+    </div>
+
+</section>
+
+<!-- ================================================= -->
+<!-- ANIMATED VEHICLE DETAILS & PURCHASE MODAL -->
+<!-- ================================================= -->
+<div id="vehicleDetailsModal" class="modal-overlay" style="display: none;" onclick="closeVehicleModal(event)">
+    <div class="modal-content-container" onclick="event.stopPropagation()">
+        
+        <div class="modal-header-bar">
+            <h2 id="modalVehicleHeaderTitle"><i class="fa-solid fa-car"></i> Vehicle Details</h2>
+            <button class="modal-close-icon" onclick="closeVehicleModal()">&times;</button>
+        </div>
+
+        <div class="modal-inner-body">
+            
+            <!-- STEP 1: VEHICLE FULL DETAILS -->
+            <div id="stepVehicleDetails">
+                <!-- MAIN GALLERY IMAGE -->
+                <img id="modalMainImg" class="gallery-main-img" src="" alt="Vehicle Photo">
+                
+                <!-- THUMBNAILS CONTAINER -->
+                <div id="modalThumbnailsRow" class="gallery-thumbnails"></div>
+
+                <div class="modal-vehicle-title" id="modalVehicleTitle">Toyota Corolla (2024)</div>
+                <div class="modal-vehicle-price" id="modalVehiclePrice">PKR 0</div>
+
+                <!-- SPECIFICATIONS GRID -->
+                <div class="full-specs-grid" id="modalSpecsGrid">
+                    <!-- Injected dynamically -->
+                </div>
+
+                <div id="modalDescriptionSection" style="margin-bottom: 20px; display: none;">
+                    <h4 style="color: #0f172a; margin-bottom: 6px;"><i class="fa-solid fa-align-left"></i> Seller Description</h4>
+                    <p id="modalDescriptionText" style="color: #475569; font-size: 14px; line-height: 1.6; background: #f8fafc; padding: 12px; border-radius: 8px;"></p>
+                </div>
+
+                <!-- RESERVED VEHICLE WARNING -->
+                <div id="modalReservedAlert" style="display: none; background: #fef3c7; border: 1.5px solid #fde68a; border-radius: 8px; padding: 12px 16px; color: #92400e; font-size: 14px; font-weight: 600; margin-bottom: 18px;">
+                    <i class="fa-solid fa-lock" style="margin-right: 6px;"></i>
+                    This vehicle is currently <strong>RESERVED</strong> by another buyer. You cannot submit a purchase request for this vehicle at this time.
+                </div>
+
+               <!-- PURCHASE REQUEST NOTICE -->
+                <div class="protected-seller-notice">
+                    <i class="fa-solid fa-shield-halved"
+                 style="color:#2563eb; font-size:18px; margin-right:6px;"></i>
+
+                 <strong>NAZ Safe Deal Guarantee:</strong>
+                Submit your purchase request first. The seller will receive
+                a confirmation request from Admin. You will be asked to pay
+                the 10% NAZ service fee only after the seller confirms availability.
+                </div>
+
+<!-- BUYER INFORMATION -->
+                <div class="buy-form-group">
+                     <label for="buyerFullName">Buyer Full Name *</label>
+                    <input type="text" id="buyerFullName"
+                         placeholder="Enter your full name" required>
+                </div>
+
+<div class="buy-form-group">
+    <label for="buyerEmail">Buyer Email *</label>
+    <input type="email" id="buyerEmail"
+           placeholder="Enter your email address" required>
+</div>
+
+<div class="buy-form-group">
+    <label for="buyerPhone">Buyer Phone Number *</label>
+    <input type="tel" id="buyerPhone"
+           placeholder="03XXXXXXXXX"
+           maxlength="11" required>
+</div>
+
+<!-- PURCHASE REQUEST BUTTON -->
+<div class="modal-action-bar">
+    <button type="button" class="btn-buy-primary"
+            id="btnSubmitPurchaseRequest"
+            onclick="submitPurchaseRequest()">
+        <i class="fa-solid fa-paper-plane"></i>
+        Submit Purchase Request
+    </button>
+
+    <button type="button" class="btn-modal-cancel"
+            onclick="closeVehicleModal()">
+        Cancel
+    </button>
+</div>
+            </div>
+
+            <!-- STEP 2: 10% NAZ FEE PAYMENT STEP -->
+            <div id="stepPaymentMethod" style="display: none;">
+                <h3 style="color: #0f172a; margin-top: 0; margin-bottom: 15px;"><i class="fa-solid fa-wallet"></i> Pay 10% NAZ Service / Token Fee</h3>
+                
+                <!-- 24-HOUR DEADLINE BANNER -->
+                <div id="paymentDeadlineBanner" style="display: none; background: #fffbeb; border: 1.5px solid #fde68a; border-radius: 8px; padding: 12px 16px; color: #92400e; font-size: 13.5px; margin-bottom: 18px;">
+                    <i class="fa-solid fa-clock" style="margin-right: 6px; color: #b45309;"></i>
+                    <strong>Payment Deadline:</strong> <span id="paymentDeadlineDisplay">24 Hours</span>. Please submit payment screenshot before this deadline expires to prevent automatic cancellation.
+                </div>
+
+                <div class="fee-summary-box">
+                    <div class="fee-row">
+                        <span>Vehicle:</span>
+                        <strong id="payVehicleName">--</strong>
+                    </div>
+                    <div class="fee-row">
+                        <span>Original Asking Price:</span>
+                        <strong id="payVehicleAskingPrice">PKR 0</strong>
+                    </div>
+                    <div class="fee-row total-pay">
+                        <span>NAZ Fee to Pay (10%):</span>
+                        <strong id="payNazFeeAmount">PKR 0</strong>
+                    </div>
+                </div>
+
+                <div class="buy-form-group">
+                    <label>Buyer Full Name *</label>
+                    <input type="text" id="payBuyerFullName" placeholder="Enter your full name">
+                </div>
+
+                <div class="buy-form-group">
+                    <label>Buyer Email * (For Payment Confirmation Receipt)</label>
+                    <input type="email" id="payBuyerEmail" placeholder="Enter your Gmail / Email">
+                </div>
+
+                <div class="buy-form-group">
+                    <label>Buyer Phone Number *</label>
+                    <input type="tel" id="payBuyerPhone" placeholder="03XXXXXXXXX" maxlength="11">
+                </div>
+
+                <div class="buy-form-group">
+                    <label>Select Payment Method *</label>
+                    <select id="buyerPaymentMethod" onchange="onBuyerPaymentMethodChanged()">
+                        <option value="">-- Choose Payment Method --</option>
+                        <option value="JazzCash">JazzCash</option>
+                        <option value="EasyPaisa">EasyPaisa</option>
+                        <option value="Bank Transfer">Bank Transfer (HBL)</option>
+                    </select>
+                </div>
+
+                <!-- ACCOUNT DETAILS CARD -->
+                <div id="buyerAccountDetailsCard" class="account-info-card" style="display: none;">
+                    <h4 id="buyerMethodTitle"><i class="fa-solid fa-building-columns"></i> NAZ Payment Details</h4>
+                    <div class="acc-row">
+                        <span>Account Title:</span>
+                        <strong id="buyerAccountTitle">NAZ Northern Automobile Zone</strong>
+                    </div>
+                    <div class="acc-row">
+                        <span id="buyerAccountNumberLabel">Account / Till Number:</span>
+                        <strong id="buyerAccountNumber">0344-5096766</strong>
+                    </div>
+                    <div class="acc-row" id="buyerBankBranchRow" style="display: none;">
+                        <span>Bank Name:</span>
+                        <strong>Habib Bank Limited (HBL)</strong>
+                    </div>
+                </div>
+
+                <div class="modal-action-bar" style="margin-top: 25px;">
+                    <button type="button" class="btn-buy-primary" id="btnInitiateBuyPayment" onclick="initiateBuyPayment()">
+                        <i class="fa-solid fa-paper-plane"></i> Proceed & Send Payment Email
+                    </button>
+                    <button type="button" class="btn-modal-cancel" onclick="backToDetailsStep()">
+                        Back
+                    </button>
+                </div>
+            </div>
+
+            <!-- STEP 3: EMAIL RECEIPT & SCREENSHOT UPLOAD -->
+            <div id="stepEmailReceipt" style="display: none;">
+                <!-- SCREENSHOT UPLOAD DROPZONE -->
+                <div class="screenshot-upload-dropzone">
+                    <h4 style="margin: 0 0 6px; color: #0f172a;"><i class="fa-solid fa-cloud-arrow-up"></i> Upload Payment Screenshot</h4>
+                    <div style="background: #f0fdf4; border: 1.5px solid #86efac; border-radius: 8px; padding: 12px 14px; margin-bottom: 14px; color: #166534; font-size: 13.5px;">
+                        <i class="fa-solid fa-envelope-circle-check"></i> <strong>Aap ka 10% NAZ fee received email bhej diya gaya hai!</strong><br>
+                        Barah-e-karam us confirmation email ka screenshot lein aur yahan submit karein taake Admin verify kar ke owner contact info unlock kare.
+                    </div>
+                    
+                    <label class="upload-file-label" for="buyPaymentProofInput">
+                        <i class="fa-solid fa-image"></i> Choose Screenshot File
+                    </label>
+                    <input type="file" id="buyPaymentProofInput" accept="image/*" style="display: none;" onchange="handleBuyProofFileSelected(event)">
+
+                    <div id="buyProofFileNameDisplay" style="color: #475569; font-size: 13px; font-weight: 500; min-height: 20px;"></div>
+
+                    <div id="buyProofPreviewBox" style="margin-top: 12px; display: none;">
+                        <img id="buyProofPreviewImg" src="" alt="Screenshot Preview" style="max-width: 100%; max-height: 220px; border-radius: 8px; border: 1px solid #cbd5e1;">
+                    </div>
+
+                    <div style="margin-top: 20px;">
+                        <button type="button" class="btn-buy-primary" id="btnSubmitBuyProof" onclick="submitBuyPaymentProof()">
+                            <i class="fa-solid fa-upload"></i> Submit Screenshot to Admin
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STEP 4: SUCCESS / ADMIN REVIEW CARD -->
+            <div id="stepSuccessReview" style="display: none;">
+                <div class="success-review-card">
+                    <div class="success-icon-badge">
+                        <i class="fa-solid fa-shield-check"></i>
+                    </div>
+                    <h3 style="color: #166534; font-size: 22px; margin-bottom: 8px;">Aap Ki Buying Activity Pending Me He!</h3>
+                    <p style="color: #374151; font-size: 14.5px; line-height: 1.6; max-width: 550px; margin: 0 auto 15px;">
+                        Aap ka 10% NAZ fee payment screenshot Admin Panel par bhej diya gaya hai. Admin is ki tasdeeq (verification) karega. Admin approved kare to aap ko Seller ka direct contact number aur address access ho jayega.
+                    </p>
+                    <div style="margin-bottom: 20px;">
+                        <span style="background: #fef3c7; color: #b45309; border: 1px solid #fde68a; padding: 6px 16px; border-radius: 20px; font-weight: 700; font-size: 13.5px;">
+                            <i class="fa-solid fa-clock"></i> Status: Buying Activity Pending (Admin Review)
+                        </span>
+                    </div>
+                    <div style="font-size: 14px; color: #475569; margin-bottom: 22px;">
+                        Purchase Reference ID: <strong id="successBuyReqIdBadge">#0</strong>
+                    </div>
+
+                    <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+                        <button type="button" class="btn-buy-primary" style="background: #1e40af; width: auto;" onclick="checkCurrentBuyStatus()">
+                            <i class="fa-solid fa-arrows-rotate"></i> Check Status & Unlock Seller Contact
+                        </button>
+                        <button type="button" class="btn-modal-cancel" onclick="closeVehicleModal()">
+                            Done / Back to Marketplace
+                        </button>
+                    </div>
+
+                    <!-- DYNAMIC UNLOCKED SELLER CONTACT BOX -->
+                    <div id="unlockedSellerContactBox" style="display: none;"></div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<!-- ================================================= -->
+<!-- TRACK PURCHASE & UNLOCK SELLER CONTACT MODAL -->
+<!-- ================================================= -->
+<div id="trackPurchaseModal" class="modal-overlay" style="display: none;" onclick="closeTrackPurchaseModal(event)">
+    <div class="modal-content-container" style="max-width: 600px;" onclick="event.stopPropagation()">
+        <div class="modal-header-bar">
+            <h2><i class="fa-solid fa-id-badge"></i> Track Purchase & Unlock Seller Contact</h2>
+            <button class="modal-close-icon" onclick="closeTrackPurchaseModal()">&times;</button>
+        </div>
+        <div class="modal-inner-body">
+            <p style="color: #64748b; font-size: 14px; margin-bottom: 15px;">
+                Enter your <strong>Purchase Request ID</strong> (e.g. 1) or <strong>Buyer Phone Number</strong> (e.g. 03XXXXXXXXX) to check payment verification and unlock Seller details:
+            </p>
+            <div style="display: flex; gap: 10px; margin-bottom: 20px;">
+                <input type="text" id="trackPurchaseQueryInput" placeholder="Request ID ya Phone number..." style="flex: 1; padding: 12px 14px; border: 1.5px solid #cbd5e1; border-radius: 8px; font-size: 14px;">
+                <button type="button" class="btn-buy-primary" style="width: auto; padding: 12px 22px;" onclick="searchTrackPurchase()">
+                    <i class="fa-solid fa-magnifying-glass"></i> Check
+                </button>
+            </div>
+            <div id="trackPurchaseResultContainer"></div>
+        </div>
+    </div>
+</div>
+
+<script src="js/buy.js"></script>
+</body>
+</html>

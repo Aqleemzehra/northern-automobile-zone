@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>NAZ - Northern Automobile Zone</title>
+    <link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/buy.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <!-- ================= NAVBAR ================= -->
+    <header class="navbar">
+
+        <div class="navbar-container">
+
+            <a href="index.html" class="logo">
+                <img src="assets/logo.png" alt="NAZ Logo">
+            </a>
+
+            <nav class="nav-links">
+
+                <a href="index.html" class="active">Home</a>
+
+                <a href="#" onclick="openBuyerAccess(event)">Buy Vehicles</a>
+
+               <a href="#" onclick="openSellerAccess(event)">Sell Vehicles</a> 
+
+               <a href="#" onclick="openRentalAccess(event)">Rent Vehicles</a>
+
+                <a href="about.html">About Us</a>
+                <a href="admin.html" style="color: #dc2626; font-weight: bold;"><i class="fa-solid fa-lock"></i> Admin Panel</a>
+
+            </nav>
+        </div>
+
+    </header>
+
+
+    <!-- ================= HERO SECTION ================= -->
+
+    <section class="hero">
+
+        <div class="hero-overlay"></div>
+
+        <div class="hero-content">
+
+            <div class="hero-text">
+
+                <p class="hero-small-title">
+                    WELCOME TO NAZ
+                </p>
+
+                <h1>
+                    BUY. SELL.<br>
+                    DRIVE SMART.
+                </h1>
+
+                <p class="hero-description">
+                    Your trusted platform to buy, sell and rent
+                    vehicles across Gilgit-Baltistan.
+                </p>
+
+                <div class="hero-buttons">
+
+                    <a href="buy.html" class="primary-btn">
+                        Explore Vehicles
+                    </a>
+
+                    <a href="sell.html" class="secondary-btn">
+                        Sell Your Vehicle
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= FEATURES ================= -->
+
+    <section class="features-section">
+
+        <div class="section-heading">
+
+            <p class="section-subtitle">
+                WHAT WE OFFER
+            </p>
+
+            <h2>
+                Find Your Perfect Vehicle
+            </h2>
+
+            <p>
+                Buy, sell or rent vehicles with ease through NAZ.
+            </p>
+
+        </div>
+
+
+        <div class="feature-cards">
+
+            <!-- SELL -->
+
+            <div class="feature-card">
+
+                <div class="feature-image">
+                    <img src="assets/sell.png" alt="Sell Vehicles">
+                </div>
+
+                <div class="feature-content">
+
+                    <h3>Sell Vehicles</h3>
+
+                    <p>
+                        List your vehicle and connect with
+                        potential buyers easily.
+                    </p>
+
+                    <a href="#" onclick="openSellerAccess(event)">Sell Now</a>
+
+                </div>
+
+            </div>
+
+
+            <!-- BUY -->
+
+            <div class="feature-card">
+
+                <div class="feature-image">
+                    <img src="assets/buy.png" alt="Buy Vehicles">
+                </div>
+
+                <div class="feature-content">
+
+                    <h3>Buy Vehicles</h3>
+
+                    <p>
+                        Explore quality vehicles available
+                        for sale in your area.
+                    </p>
+
+                <a href="#" onclick="openBuyerAccess(event)">Buy Now</a>
+                </div>
+
+            </div>
+
+
+            <!-- RENT -->
+
+            <div class="feature-card">
+
+                <div class="feature-image">
+                    <img src="assets/rent.png" alt="Rent Vehicles">
+                </div>
+
+                <div class="feature-content">
+
+                    <h3>Rent Vehicles</h3>
+
+                    <p>
+                        Rent cars and other vehicles for
+                        your travel and daily needs.
+                    </p>
+                    <a href="#" onclick="openRentalAccess(event)">Rent Now</a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+ 
+<!-- ================= FEATURED VEHICLES ================= -->
+
+<section class="featured-section">
+
+    <div class="section-heading">
+        <!-- Apni existing heading aur description yahan rehne dein -->
+    </div>
+
+    <div class="vehicle-slider">
+
+        <button
+            class="slider-btn prev-btn"
+            onclick="previousVehicle()"
+            type="button"
+            aria-label="Previous vehicles"
+        >
+            &#10094;
+        </button>
+
+        <div class="vehicle-slider-window">
+
+            <!-- Vehicles JavaScript se database se load honge -->
+            <div
+                class="vehicle-slider-track"
+                id="vehicleSlider"
+            ></div>
+
+        </div>
+
+        <button
+            class="slider-btn next-btn"
+            onclick="nextVehicle()"
+            type="button"
+            aria-label="Next vehicles"
+        >
+            &#10095;
+        </button>
+
+    </div>
+
+    <!-- Dots JavaScript khud generate karega -->
+    <div class="slider-dots"></div>
+
+</section>
+
+
+    <!-- ================= WHY CHOOSE NAZ ================= -->
+
+
+<!-- ================= WHY NAZ SECTION ================= -->
+<section class="why-naz-section" id="why-naz">
+
+    <div class="why-naz-container">
+
+        <!-- LEFT FEATURES -->
+        <div class="why-naz-side why-naz-left">
+
+            <div class="why-naz-feature">
+                <div class="why-naz-icon">
+                    <span>✓</span>
+                </div>
+
+                <div class="why-naz-content">
+                    <h3>Trusted &amp; Verified Vehicles</h3>
+                    <div class="why-naz-line"></div>
+                    <p>
+                        Seller verification, vehicle documents and
+                        admin approval for a safer marketplace.
+                    </p>
+                </div>
+            </div>
+
+            <div class="why-naz-feature">
+                <div class="why-naz-icon">
+                    <span>⌖</span>
+                </div>
+
+                <div class="why-naz-content">
+                    <h3>Built for Gilgit-Baltistan</h3>
+                    <div class="why-naz-line"></div>
+                    <p>
+                        Local sellers, showrooms, NCP and custom-paid
+                        vehicles — designed for our region.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+
+
+        <!-- CENTER BRANDING -->
+        <div class="why-naz-center">
+
+            <div class="why-naz-heading">
+                <span class="why-line"></span>
+                <h2>Why <span>NAZ?</span></h2>
+                <span class="why-line"></span>
+            </div>
+
+            <div class="why-naz-mountain">▲</div>
+
+            <img
+              src="assets/logo.png"
+              alt="NAZ - Northern Automobile Zone"
+              style="width:100%;max-width:350px;height:auto;"
+>
+
+            <p class="why-naz-tagline">
+                MORE THAN JUST A MARKETPLACE
+            </p>
+
+            <div class="why-naz-vehicle-image">
+                <img
+                    src="assets/why-naz-vehicles.png"
+                    alt="Cars and motorcycle in Gilgit-Baltistan"
+                    onerror="this.style.display='none';"
+                >
+            </div>
+
+        </div>
+
+
+        <!-- RIGHT FEATURES -->
+        <div class="why-naz-side why-naz-right">
+
+            <div class="why-naz-feature">
+                <div class="why-naz-icon">
+                    <span>🚘</span>
+                </div>
+
+                <div class="why-naz-content">
+                    <h3>Buy, Sell &amp; Rent</h3>
+                    <div class="why-naz-line"></div>
+                    <p>
+                        Cars and motorcycles for buying and selling,
+                        plus convenient car rental services.
+                    </p>
+                </div>
+            </div>
+
+            <div class="why-naz-feature">
+                <div class="why-naz-icon">
+                    <span>🛡</span>
+                </div>
+
+                <div class="why-naz-content">
+                    <h3>Verified Listings</h3>
+                    <div class="why-naz-line"></div>
+                    <p>
+                        Documents reviewed through our admin
+                        verification process for greater confidence.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- BOTTOM STRIP -->
+    <div class="why-naz-footer">
+        <span></span>
+        DRIVE &nbsp; | &nbsp; EXPLORE &nbsp; | &nbsp; GROW WITH NAZ
+        <span></span>
+    </div>
+
+</section>
+<!-- =============== END WHY NAZ SECTION =============== -->
+
+    <!-- ================================================= -->
+<!-- ANIMATED VEHICLE DETAILS & PURCHASE MODAL -->
+<!-- ================================================= -->
+<div id="vehicleDetailsModal" class="modal-overlay" style="display: none;" onclick="closeVehicleModal(event)">
+    <div class="modal-content-container" onclick="event.stopPropagation()">
+        
+        <div class="modal-header-bar">
+            <h2 id="modalVehicleHeaderTitle"><i class="fa-solid fa-car"></i> Vehicle Details</h2>
+            <button class="modal-close-icon" onclick="closeVehicleModal()">&times;</button>
+        </div>
+
+        <div class="modal-inner-body">
+            
+            <!-- STEP 1: VEHICLE FULL DETAILS -->
+            <div id="stepVehicleDetails">
+                <!-- MAIN GALLERY IMAGE -->
+                <img id="modalMainImg" class="gallery-main-img" src="" alt="Vehicle Photo">
+                
+                <!-- THUMBNAILS CONTAINER -->
+                <div id="modalThumbnailsRow" class="gallery-thumbnails"></div>
+
+                <div class="modal-vehicle-title" id="modalVehicleTitle">Toyota Corolla (2024)</div>
+                <div class="modal-vehicle-price" id="modalVehiclePrice">PKR 0</div>
+
+                <!-- SPECIFICATIONS GRID -->
+                <div class="full-specs-grid" id="modalSpecsGrid">
+                    <!-- Injected dynamically -->
+                </div>
+
+                <div id="modalDescriptionSection" style="margin-bottom: 20px; display: none;">
+                    <h4 style="color: #0f172a; margin-bottom: 6px;"><i class="fa-solid fa-align-left"></i> Seller Description</h4>
+                    <p id="modalDescriptionText" style="color: #475569; font-size: 14px; line-height: 1.6; background: #f8fafc; padding: 12px; border-radius: 8px;"></p>
+                </div>
+
+                <!-- PROTECTED SELLER NOTICE -->
+                <div class="protected-seller-notice">
+                    <i class="fa-solid fa-shield-halved" style="color: #2563eb; font-size: 18px; margin-right: 6px;"></i>
+                    <strong>NAZ Safe Deal Guarantee:</strong> Buyer aur Seller ke tahaffuz (safety) ke liye Seller ka direct contact number aur address protected hai. 
+                    Seller se rabta karne aur deal final karne ke liye <strong>10% NAZ token fee</strong> Ada karein. Payment verification ke baad Seller ke contact details unlock ho jayenge.
+                </div>
+
+                <!-- ACTION BUTTONS -->
+                <div class="modal-action-bar">
+                    <button type="button" class="btn-buy-primary" onclick="proceedToBuyStep()">
+                        <i class="fa-solid fa-cart-shopping"></i> Buy Now (Pay 10% NAZ Fee)
+                    </button>
+                    <button type="button" class="btn-modal-cancel" onclick="closeVehicleModal()">
+                        Close
+                    </button>
+                </div>
+            </div>
+
+            <!-- STEP 2: 10% NAZ FEE PAYMENT STEP -->
+            <div id="stepPaymentMethod" style="display: none;">
+                <h3 style="color: #0f172a; margin-top: 0; margin-bottom: 15px;"><i class="fa-solid fa-wallet"></i> Pay 10% NAZ Service / Token Fee</h3>
+                
+                <div class="fee-summary-box">
+                    <div class="fee-row">
+                        <span>Vehicle:</span>
+                        <strong id="payVehicleName">--</strong>
+                    </div>
+                    <div class="fee-row">
+                        <span>Original Asking Price:</span>
+                        <strong id="payVehicleAskingPrice">PKR 0</strong>
+                    </div>
+                    <div class="fee-row total-pay">
+                        <span>NAZ Fee to Pay (10%):</span>
+                        <strong id="payNazFeeAmount">PKR 0</strong>
+                    </div>
+                </div>
+
+                <div class="buy-form-group">
+                    <label>Buyer Full Name *</label>
+                    <input type="text" id="buyerFullName" placeholder="Enter your full name">
+                </div>
+
+                <div class="buy-form-group">
+                    <label>Buyer Email * (For Payment Confirmation Receipt)</label>
+                    <input type="email" id="buyerEmail" placeholder="Enter your Gmail / Email">
+                </div>
+
+                <div class="buy-form-group">
+                    <label>Buyer Phone Number *</label>
+                    <input type="tel" id="buyerPhone" placeholder="03XXXXXXXXX" maxlength="11">
+                </div>
+
+                <div class="buy-form-group">
+                    <label>Select Payment Method *</label>
+                    <select id="buyerPaymentMethod" onchange="onBuyerPaymentMethodChanged()">
+                        <option value="">-- Choose Payment Method --</option>
+                        <option value="JazzCash">JazzCash</option>
+                        <option value="EasyPaisa">EasyPaisa</option>
+                        <option value="Bank Transfer">Bank Transfer (HBL)</option>
+                    </select>
+                </div>
+
+                <!-- ACCOUNT DETAILS CARD -->
+                <div id="buyerAccountDetailsCard" class="account-info-card" style="display: none;">
+                    <h4 id="buyerMethodTitle"><i class="fa-solid fa-building-columns"></i> NAZ Payment Details</h4>
+                    <div class="acc-row">
+                        <span>Account Title:</span>
+                        <strong id="buyerAccountTitle">NAZ Northern Automobile Zone</strong>
+                    </div>
+                    <div class="acc-row">
+                        <span id="buyerAccountNumberLabel">Account / Till Number:</span>
+                        <strong id="buyerAccountNumber">0344-5096766</strong>
+                    </div>
+                    <div class="acc-row" id="buyerBankBranchRow" style="display: none;">
+                        <span>Bank Name:</span>
+                        <strong>Habib Bank Limited (HBL)</strong>
+                    </div>
+                </div>
+
+                <div class="modal-action-bar" style="margin-top: 25px;">
+                    <button type="button" class="btn-buy-primary" id="btnInitiateBuyPayment" onclick="initiateBuyPayment()">
+                        <i class="fa-solid fa-paper-plane"></i> Proceed & Send Payment Email
+                    </button>
+                    <button type="button" class="btn-modal-cancel" onclick="backToDetailsStep()">
+                        Back
+                    </button>
+                </div>
+            </div>
+
+            <!-- STEP 3: EMAIL RECEIPT & SCREENSHOT UPLOAD -->
+            <div id="stepEmailReceipt" style="display: none;">
+                <div class="email-card-view">
+                    <div class="email-card-header">
+                        <h4><i class="fa-solid fa-envelope-open-text"></i> NAZ Payment Invoice & Receipt</h4>
+                        <span style="background: #22c55e; color: white; padding: 2px 8px; border-radius: 12px; font-size: 12px; font-weight: bold;">
+                            <i class="fa-solid fa-check"></i> Paid via Email
+                        </span>
+                    </div>
+                    <div class="email-meta-info">
+                        <div><strong>From:</strong> payments@naz-automobile.pk</div>
+                        <div><strong>To:</strong> <span id="emailReceiptBuyerEmail">buyer@gmail.com</span></div>
+                        <div><strong>Subject:</strong> Payment Successful - Vehicle Purchase Token Fee #<span id="emailReceiptBuyId">0</span></div>
+                    </div>
+                    <div class="email-card-body">
+                        <div class="email-alert-banner" style="background: #ecfdf5; border: 1.5px solid #10b981; border-radius: 8px; padding: 12px 16px; margin-bottom: 14px; display: flex; align-items: center; gap: 10px;">
+                            <i class="fa-solid fa-circle-check" style="color: #10b981; font-size: 22px;"></i>
+                            <div>
+                                <h4 style="margin: 0; color: #065f46; font-size: 15px;">Aap ne NAZ fee pay kr dya he!</h4>
+                                <p style="margin: 2px 0 0; color: #047857; font-size: 13px;">10% NAZ Token Fee payment confirmation receipt</p>
+                            </div>
+                        </div>
+
+                        <p>Dear <strong id="emailReceiptBuyerName">Buyer</strong>,</p>
+                        <p>Aap ne vehicle <strong id="emailReceiptVehicleTitle">--</strong> ki purchase ke liye 10% NAZ fee (PKR <span id="emailReceiptFeeAmount">0</span>) ba-zaryah <strong id="emailReceiptMethodName">EasyPaisa</strong> pay kr dya he!</p>
+                        
+                        <table class="email-table">
+                            <tr>
+                                <td>Purchase Request ID:</td>
+                                <td id="emailTableReqId">#0</td>
+                            </tr>
+                            <tr>
+                                <td>Vehicle:</td>
+                                <td id="emailTableVehicle">--</td>
+                            </tr>
+                            <tr>
+                                <td>Vehicle Price:</td>
+                                <td id="emailTablePrice">PKR 0</td>
+                            </tr>
+                            <tr>
+                                <td>10% NAZ Token Fee:</td>
+                                <td id="emailTableFee" style="color: #b00020; font-weight: bold;">PKR 0</td>
+                            </tr>
+                            <tr>
+                                <td>Transaction Ref:</td>
+                                <td id="emailTableTxnId">NAZ-BUY-123</td>
+                            </tr>
+                            <tr>
+                                <td>Payment Status:</td>
+                                <td><span style="color: #16a34a; font-weight: bold;">Successful</span></td>
+                            </tr>
+                        </table>
+
+                        <div style="background: #fef3c7; border-left: 4px solid #f59e0b; padding: 14px 16px; border-radius: 6px; font-size: 14px; color: #92400e;">
+                            <i class="fa-solid fa-camera"></i> <strong>Important Step:</strong> Is payment confirmation ka <strong>screen shoot add karein</strong> aur neeche diye gaye button se Admin ko submit karein taake Admin tasdeeq kar ke aap ko Seller ka direct contact number unlock kar sake.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SCREENSHOT UPLOAD DROPZONE -->
+                <div class="screenshot-upload-dropzone">
+                    <h4 style="margin: 0 0 6px; color: #0f172a;"><i class="fa-solid fa-cloud-arrow-up"></i> Upload Payment Screenshot</h4>
+                    <p style="color: #64748b; font-size: 13.5px; margin-bottom: 12px;">
+                        Oper diye gaye email ka screenshot ya apne payment app ka transaction screenshot add karein:
+                    </p>
+                    
+                    <label class="upload-file-label" for="buyPaymentProofInput">
+                        <i class="fa-solid fa-image"></i> Choose Screenshot File
+                    </label>
+                    <input type="file" id="buyPaymentProofInput" accept="image/*" style="display: none;" onchange="handleBuyProofFileSelected(event)">
+
+                    <div id="buyProofFileNameDisplay" style="color: #475569; font-size: 13px; font-weight: 500; min-height: 20px;"></div>
+
+                    <div id="buyProofPreviewBox" style="margin-top: 12px; display: none;">
+                        <img id="buyProofPreviewImg" src="" alt="Screenshot Preview" style="max-width: 100%; max-height: 220px; border-radius: 8px; border: 1px solid #cbd5e1;">
+                    </div>
+
+                    <div style="margin-top: 20px;">
+                        <button type="button" class="btn-buy-primary" id="btnSubmitBuyProof" onclick="submitBuyPaymentProof()">
+                            <i class="fa-solid fa-upload"></i> Submit Screenshot to Admin
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STEP 4: SUCCESS / ADMIN REVIEW CARD -->
+            <div id="stepSuccessReview" style="display: none;">
+                <div class="success-review-card">
+                    <div class="success-icon-badge">
+                        <i class="fa-solid fa-shield-check"></i>
+                    </div>
+                    <h3 style="color: #166534; font-size: 22px; margin-bottom: 8px;">Aap Ki Buying Activity Pending Me He!</h3>
+                    <p style="color: #374151; font-size: 14.5px; line-height: 1.6; max-width: 550px; margin: 0 auto 15px;">
+                        Aap ka 10% NAZ fee payment screenshot Admin Panel par bhej diya gaya hai. Admin is ki tasdeeq (verification) karega. Admin approved kare to aap ko Seller ka direct contact number aur address access ho jayega.
+                    </p>
+                    <div style="margin-bottom: 20px;">
+                        <span style="background: #fef3c7; color: #b45309; border: 1px solid #fde68a; padding: 6px 16px; border-radius: 20px; font-weight: 700; font-size: 13.5px;">
+                            <i class="fa-solid fa-clock"></i> Status: Buying Activity Pending (Admin Review)
+                        </span>
+                    </div>
+                    <div style="font-size: 14px; color: #475569; margin-bottom: 22px;">
+                        Purchase Reference ID: <strong id="successBuyReqIdBadge">#0</strong>
+                    </div>
+
+                    <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+                        <button type="button" class="btn-buy-primary" style="background: #1e40af; width: auto;" onclick="checkCurrentBuyStatus()">
+                            <i class="fa-solid fa-arrows-rotate"></i> Check Status & Unlock Seller Contact
+                        </button>
+                        <button type="button" class="btn-modal-cancel" onclick="closeVehicleModal()">
+                            Done / Back to Marketplace
+                        </button>
+                    </div>
+
+                    <!-- DYNAMIC UNLOCKED SELLER CONTACT BOX -->
+                    <div id="unlockedSellerContactBox" style="display: none;"></div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+    
+    <script src="js/buy.js"></script>
+    <script src="js/script.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sell Vehicle - NAZ</title>
+    <link rel="stylesheet" href="css/sell.css">
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+    <div class="logo">
+        <a href="index.html"><img src="assets/logo.png" alt="NAZ Logo"></a>
+    </div>
+    <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="buy.html">Buy Vehicles</a>
+        <a href="sell.html" class="active">Sell Vehicles</a>
+        <a href="rent.html">Rent Vehicles</a>
+        <a href="admin.html">Admin Panel</a>
+        <a href="about.html">About Us</a>
+    </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+    <div class="hero-content">
+        <h1>Sell Your Vehicle</h1>
+        <p>List your verified car or motorcycle securely on Northern Automobile Zone</p>
+    </div>
+</section>
+
+<!-- MAIN FORM -->
+<div class="form-container">
+    <h2>Vehicle Selling Form</h2>
+
+    <form id="sellForm" enctype="multipart/form-data" onsubmit="event.preventDefault(); return false;">
+
+        <!-- SELLER INFORMATION -->
+        <h3 class="section-title">Seller Information</h3>
+        <div class="form-grid">
+            <div class="form-group">
+                <label for="sellerName">Full Name *</label>
+                <input type="text" id="sellerName" name="sellerName" placeholder="Enter your full name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="sellerEmail">Email Address *</label>
+                <input type="email" id="sellerEmail" name="sellerEmail" placeholder="abc@gmail.com" required>
+            </div>
+
+            <div class="form-group">
+                <label for="sellerPhone">Phone Number (11 Digits) *</label>
+                <input type="tel" id="sellerPhone" name="sellerPhone" maxlength="11" placeholder="03XXXXXXXXX" required>
+            </div>
+
+            <div class="form-group">
+                <label for="sellerLocation">Location (District) *</label>
+                <select id="sellerLocation" name="sellerLocation" required>
+                    <option value="" disabled selected>Select District of Gilgit-Baltistan</option>
+                    <option value="Gilgit">Gilgit</option>
+                    <option value="Skardu">Skardu</option>
+                    <option value="Hunza">Hunza</option>
+                    <option value="Nagar">Nagar</option>
+                    <option value="Ghizer">Ghizer</option>
+                    <option value="Gupis-Yasin">Gupis-Yasin</option>
+                    <option value="Astore">Astore</option>
+                    <option value="Diamer">Diamer</option>
+                    <option value="Shigar">Shigar</option>
+                    <option value="Kharmang">Kharmang</option>
+                    <option value="Ghanche">Ghanche</option>
+                    <option value="Roundu">Roundu</option>
+                </select>
+            </div>
+
+            <div class="form-group full-width">
+                <label for="sellerAddress">Complete Address *</label>
+                <textarea id="sellerAddress" name="sellerAddress" placeholder="Area, City, District" required></textarea>
+            </div>
+
+            <div class="form-group full-width">
+                <label for="sellerIdCard">Upload Seller CNIC / ID Card *</label>
+                <input type="file" id="sellerIdCard" accept="image/*" required>
+                <small>Seller CNIC image will be reviewed and verified by Admin (JPG, JPEG, PNG, WEBP).</small>
+            </div>
+        </div>
+
+        <!-- VEHICLE TYPE -->
+        <h3 class="section-title">Vehicle Type</h3>
+        <div class="radio-group">
+            <label class="radio-option">
+                <input type="radio" name="vehicleType" value="Car" onclick="selectVehicleType('Car')">
+                <span>Car</span>
+            </label>
+            <label class="radio-option">
+                <input type="radio" name="vehicleType" value="Motorcycle" onclick="selectVehicleType('Motorcycle')">
+                <span>Motorcycle</span>
+            </label>
+        </div>
+
+        <!-- REGISTRATION CHOICE (CARS ONLY) -->
+        <div id="registrationChoice" style="display:none;">
+            <h3>Car Registration Type</h3>
+            <div class="radio-group">
+                <label class="radio-option">
+                    <input type="radio" name="registrationType" value="Custom Paid" onclick="showCarSection('customPaid')">
+                    <span>Custom Paid</span>
+                </label>
+                <label class="radio-option">
+                    <input type="radio" name="registrationType" value="NCP" onclick="showCarSection('ncp')">
+                    <span>NCP</span>
+                </label>
+            </div>
+        </div>
+
+        <!-- CUSTOM PAID CAR SECTION -->
+        <div id="customPaidSection" class="vehicle-section" style="display:none;">
+            <h3>Custom Paid Car Information</h3>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="cpBrand">Brand *</label>
+                    <select id="cpBrand" onchange="updateModels('cpBrand','cpModel','Car')">
+                        <option value="">Select Brand</option>
+                        <option value="Toyota">Toyota</option>
+                        <option value="Honda">Honda</option>
+                        <option value="Suzuki">Suzuki</option>
+                        <option value="KIA">KIA</option>
+                        <option value="Hyundai">Hyundai</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="cpModel">Model *</label>
+                    <select id="cpModel"><option value="">Select Model</option></select>
+                </div>
+
+                <div class="form-group">
+                    <label for="cpMakeModelYear">Manufacturing Year *</label>
+                    <select id="cpMakeModelYear"><option value="">Select Year</option></select>
+                </div>
+
+                <div class="form-group">
+                    <label for="cpFuel">Fuel Type</label>
+                    <select id="cpFuel">
+                        <option value="">Select Fuel</option>
+                        <option value="Petrol">Petrol</option>
+                        <option value="Diesel">Diesel</option>
+                        <option value="Hybrid">Hybrid</option>
+                        <option value="Electric">Electric</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="cpTransmission">Transmission</label>
+                    <select id="cpTransmission">
+                        <option value="">Select Transmission</option>
+                        <option value="Automatic">Automatic</option>
+                        <option value="Manual">Manual</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="cpEngineCC">Engine CC</label>
+                    <input type="number" id="cpEngineCC" min="1" placeholder="e.g. 1800">
+                </div>
+
+                <div class="form-group">
+                    <label for="cpMileage">Mileage (KM)</label>
+                    <input type="number" id="cpMileage" min="0" placeholder="e.g. 45000">
+                </div>
+
+                <div class="form-group">
+                    <label for="cpPrice">Asking Price (PKR) *</label>
+                    <input type="number" id="cpPrice" min="1" step="1" placeholder="e.g. 3500000">
+                </div>
+
+                <div class="form-group">
+                    <label for="cpRegistration">Registration Number *</label>
+                    <input type="text" id="cpRegistration"
+                        minlength="4" maxlength="12"
+                        pattern="[A-Za-z0-9 -]{4,12}"
+                        required
+                        title="Enter 4–12 characters: letters, numbers, hyphens or spaces"
+                        placeholder="e.g. LEA-21-1234">
+                </div>
+
+                <div class="form-group">
+                    <label for="cpChassis">Chassis Number *</label>
+                    <input type="text" id="cpChassis"
+                        minlength="10" maxlength="17"
+                        pattern="[A-Za-z0-9-]{10,17}"
+                        required
+                        title="Enter 10–17 characters: letters, numbers or hyphens">
+                </div>
+
+                <div class="form-group">
+                    <label for="cpEngineNumber">Engine Number *</label>
+                    <input type="text" id="cpEngineNumber" minlength="6" maxlength="15"
+                        pattern="[A-Za-z0-9]{6,15}"
+                        required
+                        title="Enter 6–15 letters and numbers only">
+                </div>
+
+                <div class="form-group">
+                    <label for="cpCustomsStatus">Customs Paid Status</label>
+                    <select id="cpCustomsStatus">
+                        <option value="">Select Status</option>
+                        <option value="Paid">Paid</option>
+                        <option value="Verified">Verified</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="cpCondition">Vehicle Condition</label>
+                    <select id="cpCondition">
+                        <option value="">Select Condition</option>
+                        <option value="Excellent">Excellent</option>
+                        <option value="Good">Good</option>
+                        <option value="Fair">Fair</option>
+                    </select>
+                </div>
+
+                <div class="form-group full-width">
+                    <label for="customsDocument">Upload Custom Paid Registration Document *</label>
+                    <input type="file" id="customsDocument" accept="image/*">
+                    <small>Document will be reviewed and verified by Admin against Registration Number.</small>
+                </div>
+            </div>
+        </div>
+
+        <!-- NCP CAR SECTION -->
+        <div id="ncpSection" class="vehicle-section" style="display:none;">
+            <h3>NCP Car Information</h3>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="ncpBrand">Brand *</label>
+                    <select id="ncpBrand" onchange="updateModels('ncpBrand','ncpModel','Car')">
+                        <option value="">Select Brand</option>
+                        <option value="Toyota">Toyota</option>
+                        <option value="Honda">Honda</option>
+                        <option value="Suzuki">Suzuki</option>
+                        <option value="KIA">KIA</option>
+                        <option value="Hyundai">Hyundai</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="ncpModel">Model *</label>
+                    <select id="ncpModel"><option value="">Select Model</option></select>
+                </div>
+
+                <div class="form-group">
+                    <label for="ncpMakeModelYear">Manufacturing Year *</label>
+                    <select id="ncpMakeModelYear"><option value="">Select Year</option></select>
+                </div>
+
+                <div class="form-group">
+                    <label for="ncpFuel">Fuel Type</label>
+                    <select id="ncpFuel">
+                        <option value="">Select Fuel</option>
+                        <option value="Petrol">Petrol</option>
+                        <option value="Diesel">Diesel</option>
+                        <option value="Hybrid">Hybrid</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="ncpTransmission">Transmission</label>
+                    <select id="ncpTransmission">
+                        <option value="">Select Transmission</option>
+                        <option value="Automatic">Automatic</option>
+                        <option value="Manual">Manual</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="ncpEngineCC">Engine CC</label>
+                    <input type="number" id="ncpEngineCC" min="1" placeholder="e.g. 2400">
+                </div>
+
+                <div class="form-group">
+                    <label for="ncpMileage">Mileage (KM)</label>
+                    <input type="number" id="ncpMileage" min="0" placeholder="e.g. 80000">
+                </div>
+
+                <div class="form-group">
+                    <label for="ncpPrice">Asking Price (PKR) *</label>
+                    <input type="number" id="ncpPrice" min="1" step="1"  placeholder="e.g. 1800000">
+                </div>
+
+                <div class="form-group">
+                    <label for="ncpIndexationNo">NCP Indexation Number *</label>
+                    <input type="text" id="ncpIndexationNo" placeholder="Enter NCP Indexation Number">
+                </div>
+
+                <div class="form-group">
+                    <label for="ncpCnicNumber">CNIC Number *</label>
+                    <input type="text" id="ncpCnicNumber" maxlength="15" placeholder="XXXXX-XXXXXXX-X">
+                    <small>Enter Seller CNIC number (XXXXX-XXXXXXX-X).</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="ncpChassis">Chassis Number *</label>
+                    <input type="text" id="ncpChassis" 
+                    minlength="10" maxlength="17"
+                    pattern="[A-Za-z0-9-]{10,17}"
+                    required
+                    title="Enter 10–17 characters: letters, numbers or hyphens">
+                </div>
+
+                <div class="form-group">
+                    <label for="ncpEngineNumber">Engine Number *</label>
+                    <input type="text" id="ncpEngineNumber" minlength="6" maxlength="15"
+                        pattern="[A-Za-z0-9]{6,15}"
+                        required
+                        title="Enter 6–15 letters and numbers only">
+                </div>
+
+                <div class="form-group">
+                    <label for="ncpCondition">Vehicle Condition</label>
+                    <select id="ncpCondition">
+                        <option value="">Select Condition</option>
+                        <option value="Excellent">Excellent</option>
+                        <option value="Good">Good</option>
+                        <option value="Fair">Fair</option>
+                    </select>
+                </div>
+
+                <div class="form-group full-width">
+                    <label for="ncpDocument">Upload NCP Vehicle Document *</label>
+                    <input type="file" id="ncpDocument" accept="image/*">
+                    <small>NCP Indexation Number & document will be reviewed and verified by Admin.</small>
+                </div>
+            </div>
+        </div>
+
+        <!-- MOTORCYCLE SECTION -->
+        <div id="motorcycleSection" class="vehicle-section" style="display:none;">
+            <h3>Motorcycle Information</h3>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="bikeBrand">Brand *</label>
+                    <select id="bikeBrand" onchange="updateModels('bikeBrand','bikeModel','Motorcycle')">
+                        <option value="">Select Brand</option>
+                        <option value="Honda">Honda</option>
+                        <option value="Suzuki">Suzuki</option>
+                        <option value="Yamaha">Yamaha</option>
+                        <option value="Kawasaki">Kawasaki</option>
+                        <option value="United">United</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="bikeModel">Model *</label>
+                    <select id="bikeModel"><option value="">Select Model</option></select>
+                </div>
+
+                <div class="form-group">
+                    <label for="bikeMakeModelYear">Manufacturing Year *</label>
+                    <select id="bikeMakeModelYear"><option value="">Select Year</option></select>
+                </div>
+
+                <div class="form-group">
+                    <label for="bikeEngineCC">Engine CC</label>
+                    <input type="number" id="bikeEngineCC" min="1" placeholder="e.g. 125">
+                </div>
+
+                <div class="form-group">
+                    <label for="bikeMileage">Mileage (KM)</label>
+                    <input type="number" id="bikeMileage" min="0" placeholder="e.g. 15000">
+                </div>
+
+                <div class="form-group">
+                    <label for="bikePrice">Asking Price (PKR) *</label>
+                    <input type="number" id="bikePrice" min="1" placeholder="e.g. 180000">
+                </div>
+                <div class="form-group">
+                    <label for="bikeRegistrationNumber">Registration Number *</label>
+                    <input
+                        type="text"
+                        id="bikeRegistrationNumber"
+                        placeholder="e.g. ABC-123"
+                        minlength="3"
+                        maxlength="15"
+                        pattern="[A-Za-z0-9-]{3,15}"
+                        required
+                        title="Enter 3–15 characters: letters, numbers or hyphens"
+                    >
+                </div>
+                <div class="form-group">
+                    <label for="bikeChassis">Chassis Number *</label>
+                    <input type="text" id="bikeChassis"
+                        minlength="9" maxlength="17"
+                        pattern="[A-Za-z0-9-]{9,17}"
+                        required
+                        title="Enter 9–17 characters: letters, numbers or hyphens"
+                        placeholder="Chassis Number">
+                </div>
+
+                <div class="form-group">
+                    <label for="bikeEngineNumber">Engine Number *</label>
+                    <input type="text" id="bikeEngineNumber"
+                        minlength="6" maxlength="15"
+                        pattern="[A-Za-z0-9-]{6,15}"
+                        required
+                        title="Enter 6–15 characters: letters, numbers or hyphens"
+                        placeholder="Engine Number">
+                </div>
+
+                <div class="form-group">
+                    <label for="bikeCondition">Vehicle Condition</label>
+                    <select id="bikeCondition">
+                        <option value="">Select Condition</option>
+                        <option value="Excellent">Excellent</option>
+                        <option value="Good">Good</option>
+                        <option value="Fair">Fair</option>
+                    </select>
+                </div>
+
+                <div class="form-group full-width">
+                    <label for="bikeDocument">Upload Motorcycle Document *</label>
+                    <input type="file" id="bikeDocument" accept="image/*">
+                </div>
+            </div>
+        </div>
+
+        <!-- VEHICLE IMAGES SECTION -->
+        <div id="vehicleImagesSection" class="vehicle-section" style="display:none;">
+            <h3>Vehicle Images</h3>
+            <div class="form-group">
+                <label for="vehicleImages">Upload Vehicle Photos (Max 6) *</label>
+                <input type="file" id="vehicleImages" accept="image/*" multiple>
+                <small>Upload at least 1 image. Maximum 6 images allowed.</small>
+                <div id="imagePreview" class="preview-container" style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px;"></div>
+            </div>
+        </div>
+
+        <!-- SUBMIT BUTTON -->
+        <div class="submit-container" style="margin-top: 25px;">
+            <button type="button" id="submitBtn" class="submit-btn" onclick="submitVehicleForm(event)">
+                Submit Vehicle
+            </button>
+        </div>
+
+    </form>
+</div>
+
+<script src="js/sell.js"></script>
+</body>
+</html>
